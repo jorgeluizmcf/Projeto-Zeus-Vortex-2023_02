@@ -4,6 +4,7 @@ const routes = express.Router();
 // Importando os controladores
 const DespesasController = require('./controllers/DespesasController');
 const UsuariosController = require('./controllers/UsuariosController');
+const CalculosController = require('./controllers/CalculosController');
 
 
 // Rotas para as Despesas
@@ -18,5 +19,7 @@ routes.get('/usuarios', UsuariosController.read);
 routes.delete('/usuarios/:id', UsuariosController.delete);
 routes.post('/usuarios/:id', UsuariosController.update);
 
+// Rotas para os Calculos
+routes.get('/calcular-total-mes/:mesDespesa', CalculosController.calcularTotalMes);
 
 module.exports = routes;
