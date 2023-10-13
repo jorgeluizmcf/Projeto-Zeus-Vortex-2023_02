@@ -1,0 +1,43 @@
+aside.sidebar {
+    width: 220px; /* Largura desejada */
+    height: 100%; /* Faz a sidebar ocupar toda a altura da tela */
+    position: fixed; /* Torna a sidebar fixa na tela */
+    top: 0; /* Ajusta a posição no topo da tela */
+    left: 0; /* Ajusta a posição no lado esquerdo da tela */
+    background: #468C9C;
+    box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.2);
+    padding: 30px 20px;
+    overflow-y: auto; /* Adiciona uma barra de rolagem vertical, se necessário */
+}
+
+img.foto-pet {
+    display: block; /* Para centralizar a imagem horizontalmente */
+    margin: 32px auto 0; /* 32px de margin-top e centralize horizontalmente */
+    margin-bottom: 16px;
+    width: 120px; /* Largura da imagem */
+    height: 120px; /* Altura da imagem */
+    border-radius: 1000px;
+}
+
+strong.nome-pet {
+    display: flex;
+    justify-content: center; /* Centraliza horizontalmente */
+}
+
+.button-group {
+    display: flex;
+    flex-direction: column; /* Os botões serão empilhados verticalmente */
+    justify-content: center; /* Centraliza verticalmente na sidebar */
+    align-items: center; /* Centraliza horizontalmente na sidebar */
+}
+
+.sidebar-button {
+    margin: 10px; /* Espaçamento entre os botões */
+}
+
+.logoff-button {
+    position: absolute;
+    bottom: 32px;
+    left: 50%; /* Para centralizar horizontalmente */
+    transform: translateX(-50%); /* Centraliza horizontalmente */
+}

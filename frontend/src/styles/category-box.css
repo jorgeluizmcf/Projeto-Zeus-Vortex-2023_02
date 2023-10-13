@@ -1,0 +1,17 @@
+.category-box-container {
+    margin-left: 220px;
+    display: flex;
+    flex-wrap: wrap; /* Para que as caixas quebrem para a próxima linha se não couberem na largura */
+    gap: 28px; /* Espaçamento lateral entre as category-boxes */
+}
+
+aside.category-box {
+    width: 216px;
+    margin-top: 120px;
+    margin-bottom: 30px;
+    margin-left: 28px; /* Define o recuo horizontal desejado */
+    background: #75214B;
+    box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: 30px 20px;
+}
