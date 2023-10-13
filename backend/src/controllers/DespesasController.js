@@ -17,7 +17,7 @@ module.exports = {
 
         //console.log(request.body);
 
-        const {tipoDespesa, valorDespesa, mesDespesa} = request.body;
+        const {tipoDespesa, valorDespesa} = request.body;
 
         if (!valorDespesa) {
             return response.status(400).json({ error: "Necessário um valor válido!"});
@@ -27,8 +27,7 @@ module.exports = {
 
         const despesasCreated = await Despesas.create({
             tipoDespesa, 
-            valorDespesa,
-            mesDespesa
+            valorDespesa
         });
 
         return response.json(despesasCreated);
@@ -52,7 +51,7 @@ module.exports = {
 
     async update(request, response) {
         const { id } = request.params;
-        const { tipoDespesa, valorDespesa, mesDespesa } = request.body;
+        const { tipoDespesa, valorDespesa, mesDespesa, anoDespesa  } = request.body;
 
         try{ 
             const despesa = await Despesas.findOne({ _id : id});
@@ -72,6 +71,10 @@ module.exports = {
 
             if (mesDespesa !== undefined) {
                 despesa.mesDespesa = mesDespesa;
+            }
+
+            if (anoDespesa !== undefined) {
+                despesa.anoDespesa = anoDespesa;
             }
 
             // Salva as alterações

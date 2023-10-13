@@ -3,27 +3,60 @@ const Despesas = require('../models/DespesasData');
 
 module.exports = {
     async calcularTotalMes(request, response) {
-        const { mesDespesa } = request.params; // Obtém o mês do parâmetro da rota
-
+        const { mesDespesa, anoDespesa, tipoDespesa } = request.params; // Obtém os parâmetros da rota
+    
         try {
-            // Encontre todas as despesas do mês especificado
-            const despesasDoMes = await Despesas.find({ mesDespesa });
-
-            console.log('recebeu mês ' + mesDespesa + ' como parâmetro');
-            console.log(despesasDoMes);
-            // Inicializa o total como 0
-            let total = 0;
-            console.log('definiu variavel total');
-
-            // Percorre as despesas e soma seus valores
-            despesasDoMes.forEach((Despesas) => {
-                total += Despesas.valorDespesa;
-                console.log('total: ' + total);
+            // Filtra as despesas por mês e, opcionalmente, por ano e tipoDespesa
+            const pipeline = [];
+    
+            if (mesDespesa) {
+                pipeline.push({
+                    $match: {
+                        mesDespesa,
+                    },
+                });
+            }
+    
+            if (anoDespesa) {
+                pipeline.push({
+                    $match: {
+                        anoDespesa: parseInt(anoDespesa), // Convertemos para número
+                    },
+                });
+            }
+    
+            if (tipoDespesa) {
+                pipeline.push({
+                    $match: {
+                        tipoDespesa: parseInt(tipoDespesa), // Convertemos para número
+                    },
+                });
+            }
+    
+            pipeline.push({
+                $group: {
+                    _id: null,
+                    total: {
+                        $sum: '$valorDespesa',
+                    },
+                },
             });
-
-            response.json({ mesDespesa, total });
+    
+            const totalDespesas = await Despesas.aggregate(pipeline);
+    
+            const total = totalDespesas.length > 0 ? totalDespesas[0].total : 0;
+    
+            const result = {
+                mesDespesa,
+                anoDespesa,
+                tipoDespesa,
+                total,
+            };
+    
+            response.json(result);
         } catch (error) {
-            return response.status(500).json({ error: 'Ocorreu um erro ao calcular o total do mês.' });
+            return response.status(500).json({ error: 'Ocorreu um erro ao calcular o total das despesas.' });
         }
     }
+    
 }

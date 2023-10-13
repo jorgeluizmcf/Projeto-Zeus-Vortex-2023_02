@@ -11,15 +11,19 @@ const DespesasDataSchema = new mongoose.Schema({
     },
     mesDespesa: {
         type: String,
+    },
+    anoDespesa: {
+        type: Number,
     }
 }, { collection: "Despesas" });
 
 // Middleware para definir o mês no momento da criação
 DespesasDataSchema.pre('save', function (next) {
     if (!this.mesDespesa) {
-        // Se o campo mesDespesa ainda não tiver sido definido, defina-o com o mês atual
+        // Definindo mês e ano no ato do lançamento
         const dataAtual = new Date();
         this.mesDespesa = dataAtual.toLocaleString('default', { month: 'long' });
+        this.anoDespesa = dataAtual.toLocaleString('default', { year: 'numeric' });
     }
     next();
 });

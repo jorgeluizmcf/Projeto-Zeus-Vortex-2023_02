@@ -19,7 +19,8 @@ routes.get('/usuarios', UsuariosController.read);
 routes.delete('/usuarios/:id', UsuariosController.delete);
 routes.post('/usuarios/:id', UsuariosController.update);
 
-// Rotas para os Calculos
-routes.get('/calcular-total-mes/:mesDespesa', CalculosController.calcularTotalMes);
+//Rotas para os Calculos
+routes.get('/calcular-total-mes/:mesDespesa/:anoDespesa?', CalculosController.calcularTotalMes); // Rota para calcular o total por mês e, opcionalmente, por ano
+routes.get('/calcular-total-mes/:mesDespesa/:anoDespesa?/:tipoDespesa', CalculosController.calcularTotalMes); // Rota para calcular o total por mês e tipo de despesa
 
 module.exports = routes;
