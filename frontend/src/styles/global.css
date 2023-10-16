@@ -16,6 +16,37 @@ body {
 
 body, input, button, textarea {
     font-family: Roboto, sans-serif;
-    color: rgb(235, 191, 208)
+    color: white
 }
 
+.screen-container {
+    margin-left: 220px;
+    height: 100%;
+
+}
+
+h1 {
+    margin-top: 32px;
+    margin-left: 28px;
+    color: #504C50;
+}
+
+h2 {
+    margin-top: 16px;
+    margin-left: 28px;
+    font-size: 20px;
+    color: #504C50;
+}
+
+h3 {
+    color: #504C50;
+    font-size: 30px;
+}
+
+.period-selecter {
+    display: flex;
+    align-items: baseline;
+    gap: 24px;
+
+    color: #504C50;
+}

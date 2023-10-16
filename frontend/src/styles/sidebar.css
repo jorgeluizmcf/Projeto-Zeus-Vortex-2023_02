@@ -32,12 +32,42 @@ strong.nome-pet {
 }
 
 .sidebar-button {
-    margin: 10px; /* Espaçamento entre os botões */
-}
+    width: 102px;
+    background: #E0D9D2; /* Define o fundo branco */
+    color: #504C50;
+    border: none; /* Remove a borda */
+    border-radius: 12px; /* Bordas arredondadas */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Adiciona uma pequena sombra externa */
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 10px 20px; /* Ajuste o preenchimento conforme necessário */
+    cursor: pointer; /* Muda o cursor para indicar que é clicável */
+    font-weight: bold; /* Deixa o texto em negrito, opcional */
+  }
+
+/* Estilos quando o botão é hover (passagem do mouse) */
+.sidebar-button:hover {
+    background: #D7503D;
+    color: white; /* Cor do texto no hover (substitua pela cor desejada) */
+  }
 
 .logoff-button {
+    width: 92px;
+    background: #B84038; /* Define o fundo branco */
+    color: #E0D9D2;
+    border: none; /* Remove a borda */
+    border-radius: 12px; /* Bordas arredondadas */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Adiciona uma pequena sombra externa */
+    padding: 10px 20px; /* Ajuste o preenchimento conforme necessário */
+    cursor: pointer; /* Muda o cursor para indicar que é clicável */
+    font-weight: bold; /* Deixa o texto em negrito, opcional */
     position: absolute;
     bottom: 32px;
     left: 50%; /* Para centralizar horizontalmente */
     transform: translateX(-50%); /* Centraliza horizontalmente */
 }
+
+.logoff-button:hover {
+    background: #E0D9D2;
+    color: #504C50; /* Cor do texto no hover (substitua pela cor desejada) */
+  }

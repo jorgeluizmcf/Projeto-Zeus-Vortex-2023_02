@@ -1,17 +1,82 @@
 .category-box-container {
-    margin-left: 220px;
+    padding-top: 48px;
+    margin-left: 28px;
+    margin-right: 28px;
+    margin-bottom: 30px;
     display: flex;
-    flex-wrap: wrap; /* Para que as caixas quebrem para a próxima linha se não couberem na largura */
-    gap: 28px; /* Espaçamento lateral entre as category-boxes */
+    justify-content:space-around; 
+    gap: 28px; /* Espaçamento lateral entre as category-boxes */   
 }
 
-aside.category-box {
-    width: 216px;
-    margin-top: 120px;
-    margin-bottom: 30px;
-    margin-left: 28px; /* Define o recuo horizontal desejado */
-    background: #75214B;
+.category-box {
+    width: 216px;    
+    height: 144px;
+    background: #D7503D;
     box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.2);
     border-radius: 10px;
-    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.category-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    font-size: 20px;
+  }
+  
+
+img.category-icon {
+    border-radius: 10px;
+    width: 40px; /* Largura do ícone */
+    height: 40px; /* Altura do ícone (mesmo valor da largura) */
+    margin-right: 5px;
+}
+  
+.flag-button-container{
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    padding-right: 8px;
+    padding-top: 8px;        
+}
+
+.flag-button {    
+    background: #B84038;
+    border-width: 5px;
+    border-spacing: 20px;
+    cursor: pointer;
+    width: 8px; /* Largura e altura para torná-lo circular */
+    height: 8px;
+    border-radius: 50%; /* Define a forma circular */
+    position: relative; /* Para adicionar o pingo no centro */
+}
+  
+.flag-button::before {
+    content: '';
+    background: #B84038; /* Cor do pingo (você pode ajustar a cor desejada) */
+    width: 8px; /* Largura do pingo */
+    height: 8px; /* Altura do pingo */
+    border-radius: 50%; /* Torna o pingo circular */
+    position: absolute; /* Posiciona o pingo em relação ao botão */
+    top: 50%; /* Centraliza verticalmente */
+    left: 50%; /* Centraliza horizontalmente */
+    transform: translate(-50%, -50%); /* Centraliza o pingo no centro do botão */
+}
+
+.price-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    height: 100%;
+}
+ 
+.price-info span {
+    margin-right: 5px; /* Espaço entre o cifrão e o valor calculado */
+}
+  
+.calculated-value {
+    font-weight: bold; /* Estilo para destacar o valor calculado */
+    font-size: 40px;
 }
