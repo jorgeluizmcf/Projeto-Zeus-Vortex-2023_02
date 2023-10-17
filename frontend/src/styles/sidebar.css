@@ -6,13 +6,17 @@ aside.sidebar {
     left: 0; /* Ajusta a posição no lado esquerdo da tela */
     background: #468C9C;
     box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.2);
-    padding: 30px 20px;
+    padding-top: 32px;
+    padding-bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     overflow-y: auto; /* Adiciona uma barra de rolagem vertical, se necessário */
 }
 
 img.foto-pet {
     display: block; /* Para centralizar a imagem horizontalmente */
-    margin: 32px auto 0; /* 32px de margin-top e centralize horizontalmente */
+   
     margin-bottom: 16px;
     width: 120px; /* Largura da imagem */
     height: 120px; /* Altura da imagem */
@@ -31,6 +35,16 @@ strong.nome-pet {
     align-items: center; /* Centraliza horizontalmente na sidebar */
 }
 
+.perfil-sidebar {
+    height: max-content;
+    display: flex;
+    flex-direction: column; /* Os botões serão empilhados verticalmente */
+    justify-content: end; /* Centraliza verticalmente na sidebar */
+    align-items: center; /* Centraliza horizontalmente na sidebar */
+
+
+}
+
 .sidebar-button {
     width: 102px;
     background: #E0D9D2; /* Define o fundo branco */
@@ -42,17 +56,18 @@ strong.nome-pet {
     margin-bottom: 10px;
     padding: 10px 20px; /* Ajuste o preenchimento conforme necessário */
     cursor: pointer; /* Muda o cursor para indicar que é clicável */
-    font-weight: bold; /* Deixa o texto em negrito, opcional */
+    font-weight: lighter;
   }
 
 /* Estilos quando o botão é hover (passagem do mouse) */
 .sidebar-button:hover {
     background: #D7503D;
     color: white; /* Cor do texto no hover (substitua pela cor desejada) */
-  }
+}
 
 .logoff-button {
-    width: 92px;
+    width: 102px;
+    margin-top: 10px;
     background: #B84038; /* Define o fundo branco */
     color: #E0D9D2;
     border: none; /* Remove a borda */
@@ -60,14 +75,18 @@ strong.nome-pet {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Adiciona uma pequena sombra externa */
     padding: 10px 20px; /* Ajuste o preenchimento conforme necessário */
     cursor: pointer; /* Muda o cursor para indicar que é clicável */
-    font-weight: bold; /* Deixa o texto em negrito, opcional */
-    position: absolute;
-    bottom: 32px;
+    font-weight: lighter;
     left: 50%; /* Para centralizar horizontalmente */
-    transform: translateX(-50%); /* Centraliza horizontalmente */
 }
 
 .logoff-button:hover {
     background: #E0D9D2;
     color: #504C50; /* Cor do texto no hover (substitua pela cor desejada) */
   }
+
+.button-elements{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;    
+    height:100%;
+}

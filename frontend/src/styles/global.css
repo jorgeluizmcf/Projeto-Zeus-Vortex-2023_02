@@ -43,10 +43,31 @@ h3 {
     font-size: 30px;
 }
 
+select#periodo-mes {
+    color: #504C50;
+    background-color: #E0D9D2;
+    border: none;
+    border-radius: 5px;
+    width: 80px;
+    height: 24px;
+  }
+
+select#periodo-ano {
+    color: #504C50;
+    background-color: #E0D9D2;
+    border: none;
+    border-radius: 5px;
+    width: 56px;
+    height: 24px;
+}
+
 .period-selecter {
     display: flex;
     align-items: baseline;
     gap: 24px;
-
     color: #504C50;
+}
+
+.react-confirm-alert-overlay {
+    background: rgba(224, 217, 210, 0.9);
 }

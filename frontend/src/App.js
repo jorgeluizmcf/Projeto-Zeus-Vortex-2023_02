@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import PopUpAlert from './components/popups-alert';
+import DemoPie from './components/graph-chart.js';
 import logo from './logo.svg';
 import './styles/App.css';
 import './styles/global.css';
@@ -12,9 +14,26 @@ import iconeBrinquedos from './img/icone-brinquedos.png';
 import iconeVeterinario from './img/icone-veterinario.png';
 
 function App() {
+
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   //importando toggleFlag
   const [isFlagged, setFlag] = useState(true);
   const toggleFlag = () => { setFlag(!isFlagged); };
+  const data = [
+    { year: '1991', value: 3 },
+    { year: '1992', value: 4 },
+    { year: '1993', value: 3.5 },
+    { year: '1994', value: 5 },
+    { year: '1995', value: 4.9 },
+    { year: '1996', value: 6 },
+    { year: '1997', value: 7 },
+    { year: '1998', value: 9 },
+    { year: '1999', value: 13 },
+  ];
 
   return (
     
@@ -23,16 +42,39 @@ function App() {
       <aside className="sidebar">
         <img className="foto-pet" src={ fotoPet } alt="Foto pet" />
         <strong className="nome-pet">Zeus</strong>
-
+        <div className='button-elements'> 
         <div className="button-group">
-          <button className="sidebar-button">Adicionar</button>
-          <button className="sidebar-button">Alterar</button>
-          <button className="sidebar-button">Apagar</button>
+          <PopUpAlert nameButton="Adicionar"
+                      title="Adicionar Despesa"
+                      message="Indique a categoria e o valor da sua despesa."
+                      confirmLabel="Confirmar"
+                      cancelLabel="Cancelar" 
+                      show={show} handleClose={handleClose} />
+
+          <PopUpAlert nameButton="Listar"
+                      title="Lista de Despesas"
+                      message="Exempo de lista:
+                                  -
+                                  -
+                                  -
+                                  -"
+                      confirmLabel="Confirmar"
+                      cancelLabel="Cancelar" 
+                      show={show} handleClose={handleClose} />
         </div>
 
         <div className="separator"></div>
-
-        <button className="logoff-button">Logoff</button>
+        
+        <div className='perfil-sidebar'>
+          <PopUpAlert nameButton="Perfil"
+                        title="Perfil"
+                        message="Alterar propriedades do perfil"
+                        confirmLabel="Confirmar"
+                        cancelLabel="Cancelar" 
+                        show={show} handleClose={handleClose} />
+          <button className="logoff-button">Sair</button>
+        </div>
+        </div>
       </aside>
 
       <div className='screen-container'> 
@@ -42,7 +84,7 @@ function App() {
           <h2>Período</h2>
           
           <form>
-            <label for="periodo-mes">Mês:</label>
+            <label for="periodo-mes">Mês: </label>
             <select id="periodo-mes" name="periodo-mes">
               <option value="janeiro">janeiro</option>
               <option value="fevereiro">fevereiro</option>
@@ -60,7 +102,7 @@ function App() {
           </form>
 
           <form>
-            <label for="periodo-ano">Ano:</label>
+            <label for="periodo-ano">Ano: </label>
             <select id="periodo-ano" name="periodo-ano">
               <option value="2023">2023</option>
               <option value="2022">2022</option>
@@ -152,7 +194,13 @@ function App() {
           <h3>Dashboard</h3>
 
           <div className='dashboard-container'>
-            conteudo
+            <div className='dashboard-graph'>
+              { <DemoPie data={data}/> }
+            </div>
+
+            <div className='dashboard-recents'>
+              Recentes
+            </div>
           </div>
         </div>
 
