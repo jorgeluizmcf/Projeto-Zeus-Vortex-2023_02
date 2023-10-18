@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import PopUpAlert from './components/popups-alert';
+import React, { useState, useEffect } from 'react';
+import PopUpAlert from './components/popups-add.js';
 import DemoPie from './components/graph-chart.js';
 import logo from './logo.svg';
 import './styles/App.css';
@@ -20,20 +20,62 @@ function App() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  //importando toggleFlag
-  const [isFlagged, setFlag] = useState(true);
-  const toggleFlag = () => { setFlag(!isFlagged); };
-  const data = [
-    { year: '1991', value: 3 },
-    { year: '1992', value: 4 },
-    { year: '1993', value: 3.5 },
-    { year: '1994', value: 5 },
-    { year: '1995', value: 4.9 },
-    { year: '1996', value: 6 },
-    { year: '1997', value: 7 },
-    { year: '1998', value: 9 },
-    { year: '1999', value: 13 },
-  ];
+  let [selectedMonth, setSelectedMonth] = useState('');
+  const [selectedYear, setSelectedYear] = useState('');
+
+  useEffect(() => {
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth() + 1; 
+    console.log(currentMonth);
+    const currentYear = currentDate.getFullYear();
+    console.log(currentYear);
+    let mesAtual;
+
+    switch (currentMonth){
+      case 1:
+        setSelectedMonth('janeiro');
+        break;
+      case 2:
+        setSelectedMonth('fevereiro');
+        break;
+      case 3:
+        setSelectedMonth('março');
+        break;
+      case 4:
+        setSelectedMonth('abril');
+        break;
+      case 5:
+        setSelectedMonth('maio');
+        break;
+      case 6:
+        setSelectedMonth('junho');
+        break;
+      case 7:
+        setSelectedMonth('julho');
+        break;
+      case 8:
+        setSelectedMonth('agosto');
+        break;
+      case 9:
+        setSelectedMonth('setembro');
+        break;
+      case 10:
+        setSelectedMonth('outubro');
+        break;
+      case 11:
+        setSelectedMonth('novembro');
+        break;
+      case 12:
+        setSelectedMonth('dezembro');
+        break;   
+    }
+    setSelectedYear(currentYear.toString());
+  }, []);
+
+
+
+
+  const dashboardData = [/* lógica para tratar os dados e enviar para fazer o gráfico de pizza*/];
 
   return (
     
@@ -84,8 +126,8 @@ function App() {
           <h2>Período</h2>
           
           <form>
-            <label for="periodo-mes">Mês: </label>
-            <select id="periodo-mes" name="periodo-mes">
+            <label htmlFor="periodo-mes">Mês: </label>
+            <select id="periodo-mes" name="periodo-mes" value={selectedMonth} onChange={(e) => setSelectedMonth(e.target.value)}>
               <option value="janeiro">janeiro</option>
               <option value="fevereiro">fevereiro</option>
               <option value="março">março</option>
@@ -103,7 +145,7 @@ function App() {
 
           <form>
             <label for="periodo-ano">Ano: </label>
-            <select id="periodo-ano" name="periodo-ano">
+            <select id="periodo-ano" name="periodo-ano"value={selectedYear} onChange={(e) => setSelectedYear(e.target.value)}>
               <option value="2023">2023</option>
               <option value="2022">2022</option>
             </select>
@@ -112,14 +154,7 @@ function App() {
 
 
         <div className="category-box-container">
-          <div className="category-box">
-              <div className='flag-button-container'>
-
-                <button className="flag-button" onClick={() => toggleFlag()}>
-                    <i className="fas fa-flag"></i>
-                  </button>
-                </div>
-                
+          <div className="category-box">             
                 <strong className='category-title'>
                   Alimentação
                   <img className="category-icon" src={ iconeRacao } alt="icone de ração" />                
@@ -132,13 +167,6 @@ function App() {
               </div>
 
               <div className="category-box">
-                <div className='flag-button-container'>
-
-                <button className="flag-button" onClick={() => toggleFlag()}>
-                    <i className="fas fa-flag"></i>
-                  </button>
-                </div>
-                
                 <strong className='category-title'>
                   Higiene
                   <img className="category-icon" src={ iconeHigiene } alt="icone de Higiene" />                
@@ -151,13 +179,6 @@ function App() {
               </div>
 
               <div className="category-box">
-                <div className='flag-button-container'>
-
-                <button className="flag-button" onClick={() => toggleFlag()}>
-                    <i className="fas fa-flag"></i>
-                  </button>
-                </div>
-                
                 <strong className='category-title'>
                   Brinquedos
                   <img className="category-icon" src={ iconeBrinquedos } alt="icone de brinquedos" />                
@@ -169,14 +190,7 @@ function App() {
                 </div>
               </div>
 
-              <div className="category-box">
-                <div className='flag-button-container'>
-
-                <button className="flag-button" onClick={() => toggleFlag()}>
-                    <i className="fas fa-flag"></i>
-                  </button>
-                </div>
-                
+              <div className="category-box">   
                 <strong className='category-title'>
                   Veterinário
                   <img className="category-icon" src={ iconeVeterinario } alt="icone de veterinário" />                
@@ -195,7 +209,7 @@ function App() {
 
           <div className='dashboard-container'>
             <div className='dashboard-graph'>
-              { <DemoPie data={data}/> }
+              { <DemoPie data={dashboardData}/> }
             </div>
 
             <div className='dashboard-recents'>

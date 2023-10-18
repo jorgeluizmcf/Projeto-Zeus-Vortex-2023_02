@@ -9,6 +9,7 @@
 }
 
 .category-box {
+    padding-top: 16px;
     width: 216px;    
     height: 144px;
     background: #D7503D;
@@ -33,37 +34,6 @@ img.category-icon {
     margin-right: 5px;
 }
   
-.flag-button-container{
-    width: 100%;
-    display: flex;
-    justify-content: end;
-    padding-right: 8px;
-    padding-top: 8px;        
-}
-
-.flag-button {    
-    background: #B84038;
-    border-width: 5px;
-    border-spacing: 20px;
-    cursor: pointer;
-    width: 8px; /* Largura e altura para torná-lo circular */
-    height: 8px;
-    border-radius: 50%; /* Define a forma circular */
-    position: relative; /* Para adicionar o pingo no centro */
-}
-  
-.flag-button::before {
-    content: '';
-    background: #B84038; /* Cor do pingo (você pode ajustar a cor desejada) */
-    width: 8px; /* Largura do pingo */
-    height: 8px; /* Altura do pingo */
-    border-radius: 50%; /* Torna o pingo circular */
-    position: absolute; /* Posiciona o pingo em relação ao botão */
-    top: 50%; /* Centraliza verticalmente */
-    left: 50%; /* Centraliza horizontalmente */
-    transform: translate(-50%, -50%); /* Centraliza o pingo no centro do botão */
-}
-
 .price-info {
     display: flex;
     align-items: center;

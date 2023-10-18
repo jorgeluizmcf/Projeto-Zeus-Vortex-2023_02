@@ -6,3 +6,22 @@
     opacity: 30%;
     border: 2px solid red;
 }
+
+.interface-popup {
+    display: flex;
+    background: white;
+    border: 2px solid red;
+}
+
+select#categoria-despesa {
+    color: #504C50;
+    background-color: #E0D9D2;
+    border: none;
+    border-radius: 5px;
+    width: 104px;
+    height: 24px;
+}
+
+.add-button-group {
+    display: flex;
+}

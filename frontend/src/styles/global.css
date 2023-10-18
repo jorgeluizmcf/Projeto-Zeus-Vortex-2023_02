@@ -71,3 +71,9 @@ select#periodo-ano {
 .react-confirm-alert-overlay {
     background: rgba(224, 217, 210, 0.9);
 }
+
+
+.monetary-input {
+    color: #666; /* Define a cor desejada */
+    /* Outros estilos */
+  }
