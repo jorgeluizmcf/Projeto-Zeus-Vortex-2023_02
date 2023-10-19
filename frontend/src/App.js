@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import PopUpAlert from './components/popups-add.js';
+import api from './services/api';
+import PopUpAdd from './components/popups-add.js';
+import PopUpAlert from './components/popups-alert.js';
 import DemoPie from './components/graph-chart.js';
-import logo from './logo.svg';
 import './styles/App.css';
 import './styles/global.css';
 import './styles/sidebar.css';
@@ -16,20 +17,20 @@ import iconeVeterinario from './img/icone-veterinario.png';
 function App() {
 
   const [show, setShow] = useState(false);
-
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
 
-  let [selectedMonth, setSelectedMonth] = useState('');
-  const [selectedYear, setSelectedYear] = useState('');
+  const [selectedMonth, setSelectedMonth] = useState('outubro');
+  const [selectedYear, setSelectedYear] = useState(2023);
+
+  const [despesaAlimentacao, setDespesaAlimentacao] = useState(0);
+  const [despesaHigiene, setDespesaHigiene] = useState(0);
+  const [despesaBrinquedos, setDespesaBrinquedos] = useState(0);
+  const [despesaVeterinario, setDespesaVeterinario] = useState(0);
 
   useEffect(() => {
     const currentDate = new Date();
     const currentMonth = currentDate.getMonth() + 1; 
-    console.log(currentMonth);
     const currentYear = currentDate.getFullYear();
-    console.log(currentYear);
-    let mesAtual;
 
     switch (currentMonth){
       case 1:
@@ -67,15 +68,63 @@ function App() {
         break;
       case 12:
         setSelectedMonth('dezembro');
-        break;   
+        break;
+      default:
+        //apenas para tirar warning
+        ;   
     }
-    setSelectedYear(currentYear.toString());
+    //setSelectedYear(currentYear.toString());
   }, []);
 
+    // Use useEffect para chamar a função de busca de valores quando a página carregar e quando os valores de mês ou ano mudarem
+    useEffect(() => {
+      fetchCategoriaValues(selectedMonth, selectedYear);
+    }, [selectedMonth, selectedYear]);
+  
+    // Função para buscar os valores das categorias com base no mês e ano selecionados
+    const fetchCategoriaValues = (mes, ano) => {
+      const categorias = [0, 1, 2, 3]; // Um array de IDs de categoria
+    
+      categorias.forEach((categoriaId) => {
+        api.get(`/calcular-total-mes/${mes}/${ano}/${categoriaId}`).then((response) => {
+          // Atualize os estados das despesas com os valores da resposta da API
+          switch (categoriaId) {
+            case 0:
+              setDespesaAlimentacao(response.data.total);
+              console.log(despesaAlimentacao);
+              break;
+            case 1:
+              setDespesaHigiene(response.data.total);
+              console.log(despesaHigiene);
+              break;
+            case 2:
+              setDespesaBrinquedos(response.data.total);
+              console.log(despesaBrinquedos);
+              break;
+            case 3:
+              setDespesaVeterinario(response.data.total);
+              console.log(despesaVeterinario);
+              break;
+            default:
+              // Lidar com outros IDs de categoria, se necessário
+              break;
+          }
+        });
+      });
+    };
+  
+    // Função para lidar com a mudança nos dropdowns de mês e ano
+    const handleDropdownChange = (event) => {
+      const { name, value } = event.target;
+      if (name === 'mes') {
+        setSelectedMonth(value);
+      } else if (name === 'ano') {
+        setSelectedYear(value);
+      }
+    };
 
-
-
-  const dashboardData = [/* lógica para tratar os dados e enviar para fazer o gráfico de pizza*/];
+  const dashboardData = [despesaAlimentacao, despesaHigiene, despesaBrinquedos, despesaVeterinario];
+  console.log(dashboardData);
 
   return (
     
@@ -86,14 +135,14 @@ function App() {
         <strong className="nome-pet">Zeus</strong>
         <div className='button-elements'> 
         <div className="button-group">
-          <PopUpAlert nameButton="Adicionar"
+          <PopUpAdd nameButton="Adicionar"
                       title="Adicionar Despesa"
                       message="Indique a categoria e o valor da sua despesa."
                       confirmLabel="Confirmar"
                       cancelLabel="Cancelar" 
                       show={show} handleClose={handleClose} />
 
-          <PopUpAlert nameButton="Listar"
+          <PopUpAdd nameButton="Listar"
                       title="Lista de Despesas"
                       message="Exempo de lista:
                                   -
@@ -108,7 +157,7 @@ function App() {
         <div className="separator"></div>
         
         <div className='perfil-sidebar'>
-          <PopUpAlert nameButton="Perfil"
+          <PopUpAdd nameButton="Perfil"
                         title="Perfil"
                         message="Alterar propriedades do perfil"
                         confirmLabel="Confirmar"
@@ -125,9 +174,13 @@ function App() {
         <div className='period-selecter'>
           <h2>Período</h2>
           
-          <form>
+         
             <label htmlFor="periodo-mes">Mês: </label>
-            <select id="periodo-mes" name="periodo-mes" value={selectedMonth} onChange={(e) => setSelectedMonth(e.target.value)}>
+            <select id="periodo-mes" name="periodo-mes" value={selectedMonth} onChange={(e) =>{ 
+              setSelectedMonth(e.target.value)
+              fetchCategoriaValues(e.target.value,selectedYear)
+          }
+            }>
               <option value="janeiro">janeiro</option>
               <option value="fevereiro">fevereiro</option>
               <option value="março">março</option>
@@ -141,11 +194,13 @@ function App() {
               <option value="novembro">novembro</option>
               <option value="dezembro">dezembro</option>
             </select>
-          </form>
+          
 
           <form>
             <label for="periodo-ano">Ano: </label>
-            <select id="periodo-ano" name="periodo-ano"value={selectedYear} onChange={(e) => setSelectedYear(e.target.value)}>
+            <select id="periodo-ano" name="periodo-ano"value={selectedYear} onChange={(e) =>{ setSelectedYear(e.target.value)
+            fetchCategoriaValues(selectedMonth,e.target.value)
+            }}>
               <option value="2023">2023</option>
               <option value="2022">2022</option>
             </select>
@@ -162,7 +217,7 @@ function App() {
 
                 <div className="price-info">
                   <span>R$</span>
-                  <span className="calculated-value">1000,00</span>
+                  <span className="calculated-value">{despesaAlimentacao}</span>
                 </div>
               </div>
 
@@ -174,7 +229,7 @@ function App() {
 
                 <div className="price-info">
                   <span>R$</span>
-                  <span className="calculated-value">200,00</span>
+                  <span className="calculated-value">{despesaHigiene}</span>
                 </div>
               </div>
 
@@ -186,7 +241,7 @@ function App() {
 
                 <div className="price-info">
                   <span>R$</span>
-                  <span className="calculated-value">200,00</span>
+                  <span className="calculated-value">{despesaBrinquedos}</span>
                 </div>
               </div>
 
@@ -198,7 +253,7 @@ function App() {
 
                 <div className="price-info">
                   <span>R$</span>
-                  <span className="calculated-value">200,00</span>
+                  <span className="calculated-value">{despesaVeterinario}</span>
                 </div>
           </div>
         </div>
@@ -209,7 +264,7 @@ function App() {
 
           <div className='dashboard-container'>
             <div className='dashboard-graph'>
-              { <DemoPie data={dashboardData}/> }
+              { <DemoPie givenData={dashboardData}/> }
             </div>
 
             <div className='dashboard-recents'>

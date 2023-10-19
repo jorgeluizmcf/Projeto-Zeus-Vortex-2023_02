@@ -1,6 +1,6 @@
 import { Pie, measureTextWidth } from '@ant-design/plots';
 
-export default function DemoPie(){
+export default function DemoPie({givenData}){
   function renderStatistic(containerWidth, text, style) {
     const { width: textWidth, height: textHeight } = measureTextWidth(text, style);
     const R = containerWidth / 2; // r^2 = (w / 2)^2 + (h - offsetY)^2
@@ -18,21 +18,22 @@ export default function DemoPie(){
   const data = [
     {
       type: 'Alimentação',
-      value: 1000,
+      value: givenData[0],
     },
     {
       type: 'Higiene',
-      value: 200,
+      value: givenData[1],
     },
     {
       type: 'Brinquedos',
-      value: 200,
+      value: givenData[2],
     },
     {
       type: 'Veterinário',
-      value: 200,
+      value: givenData[3],
     },
   ];
+
   const config = {
     appendPadding: 10,
     data,

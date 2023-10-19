@@ -3,7 +3,7 @@ import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import InputAdornments from './money-input';
 
-const PopUpAlert = (props) => {
+const PopUpAdd = (props) => {
   const { nameButton, title, confirmLabel, cancelLabel } = props;
 
   const [category, setCategory] = useState('');
@@ -69,4 +69,4 @@ const PopUpAlert = (props) => {
   );
 };
 
-export default PopUpAlert;
+export default PopUpAdd;

@@ -39,7 +39,7 @@ strong.nome-pet {
     height: max-content;
     display: flex;
     flex-direction: column; /* Os botões serão empilhados verticalmente */
-    justify-content: end; /* Centraliza verticalmente na sidebar */
+    justify-content: flex-end; /* Centraliza verticalmente na sidebar */
     align-items: center; /* Centraliza horizontalmente na sidebar */
 
 
