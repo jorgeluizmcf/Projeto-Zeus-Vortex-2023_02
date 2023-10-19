@@ -4,7 +4,6 @@
     width: 100%;
     background: black;
     opacity: 30%;
-    border: 2px solid red;
 }
 
 .interface-popup {
@@ -24,4 +23,5 @@ select#categoria-despesa {
 
 .add-button-group {
     display: flex;
+    gap: 16px;
 }

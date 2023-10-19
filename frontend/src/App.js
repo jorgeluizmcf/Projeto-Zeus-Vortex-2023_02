@@ -16,11 +16,63 @@ import iconeVeterinario from './img/icone-veterinario.png';
 
 function App() {
 
+  const monthNumberToMonthName = (monthNumber) =>{
+    switch (monthNumber){
+      case 1:
+        return 'janeiro';
+        break;
+      case 2:
+        return 'fevereiro';
+        break;
+      case 3:
+        return 'março';
+        break;
+      case 4:
+        return 'abril';
+        break;
+      case 5:
+        return 'maio';
+        break;
+      case 6:
+        return 'junho';
+        break;
+      case 7:
+        return 'julho';
+        break;
+      case 8:
+        return 'agosto';
+        break;
+      case 9:
+        return 'setembro';
+        break;
+      case 10:
+        return 'outubro';
+        break;
+      case 11:
+        return 'novembro';
+        break;
+      case 12:
+        return 'dezembro';
+        break;
+      default:
+        //apenas para tirar warning
+        ;   
+    }
+  }
+
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
 
-  const [selectedMonth, setSelectedMonth] = useState('outubro');
-  const [selectedYear, setSelectedYear] = useState(2023);
+  const [selectedMonth, setSelectedMonth] = useState(
+    ()=>{
+      const currentDate = new Date();
+      const currentMonth = currentDate.getMonth() +1
+      return monthNumberToMonthName(currentMonth)
+    });
+  const [selectedYear, setSelectedYear] = useState(()=>{
+    const currentDate = new Date();
+    return currentDate.getFullYear();
+  });
 
   const [despesaAlimentacao, setDespesaAlimentacao] = useState(0);
   const [despesaHigiene, setDespesaHigiene] = useState(0);
@@ -32,47 +84,7 @@ function App() {
     const currentMonth = currentDate.getMonth() + 1; 
     const currentYear = currentDate.getFullYear();
 
-    switch (currentMonth){
-      case 1:
-        setSelectedMonth('janeiro');
-        break;
-      case 2:
-        setSelectedMonth('fevereiro');
-        break;
-      case 3:
-        setSelectedMonth('março');
-        break;
-      case 4:
-        setSelectedMonth('abril');
-        break;
-      case 5:
-        setSelectedMonth('maio');
-        break;
-      case 6:
-        setSelectedMonth('junho');
-        break;
-      case 7:
-        setSelectedMonth('julho');
-        break;
-      case 8:
-        setSelectedMonth('agosto');
-        break;
-      case 9:
-        setSelectedMonth('setembro');
-        break;
-      case 10:
-        setSelectedMonth('outubro');
-        break;
-      case 11:
-        setSelectedMonth('novembro');
-        break;
-      case 12:
-        setSelectedMonth('dezembro');
-        break;
-      default:
-        //apenas para tirar warning
-        ;   
-    }
+    
     //setSelectedYear(currentYear.toString());
   }, []);
 
@@ -80,7 +92,7 @@ function App() {
     useEffect(() => {
       fetchCategoriaValues(selectedMonth, selectedYear);
     }, [selectedMonth, selectedYear]);
-  
+       
     // Função para buscar os valores das categorias com base no mês e ano selecionados
     const fetchCategoriaValues = (mes, ano) => {
       const categorias = [0, 1, 2, 3]; // Um array de IDs de categoria
@@ -91,19 +103,15 @@ function App() {
           switch (categoriaId) {
             case 0:
               setDespesaAlimentacao(response.data.total);
-              console.log(despesaAlimentacao);
               break;
             case 1:
               setDespesaHigiene(response.data.total);
-              console.log(despesaHigiene);
               break;
             case 2:
               setDespesaBrinquedos(response.data.total);
-              console.log(despesaBrinquedos);
               break;
             case 3:
               setDespesaVeterinario(response.data.total);
-              console.log(despesaVeterinario);
               break;
             default:
               // Lidar com outros IDs de categoria, se necessário
@@ -124,8 +132,6 @@ function App() {
     };
 
   const dashboardData = [despesaAlimentacao, despesaHigiene, despesaBrinquedos, despesaVeterinario];
-  console.log(dashboardData);
-
   return (
     
     <div id="app">
