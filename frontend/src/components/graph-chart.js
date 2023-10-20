@@ -39,7 +39,7 @@ export default function DemoPie({givenData}){
     data,
     angleField: 'value',
     colorField: 'type',
-    color: ['#B86D37', '#46719C', '#469C72', '#60D6C4'],
+    color: ['#B86D37', '#46719C', '#469C72', '#446957'],
     radius: 1,
     innerRadius: 0.64,
     meta: {
@@ -75,7 +75,7 @@ export default function DemoPie({givenData}){
         },
         customHtml: (container, view, datum, data) => {
           const { width } = container.getBoundingClientRect();
-          const text = datum ? `R$ ${datum.value}` : `R$ ${data.reduce((r, d) => r + d.value, 0)}`;
+          const text = datum ? `R$ ${datum.value}` : `R$ ${data.reduce((r, d) => r + d.value, 0).toFixed(2).replace(".", ",")}`;
           return renderStatistic(width, text, {
             fontSize: 32,
           });

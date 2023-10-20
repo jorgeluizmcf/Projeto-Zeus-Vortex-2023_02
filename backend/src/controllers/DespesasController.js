@@ -19,6 +19,8 @@ module.exports = {
 
         const {tipoDespesa, valorDespesa} = request.body;
 
+        console.log(request.body);
+
         if (!valorDespesa) {
             return response.status(400).json({ error: "Necessário um valor válido!"});
         }

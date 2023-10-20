@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from './services/api';
 import PopUpAdd from './components/popups-add.js';
-import PopUpAlert from './components/popups-alert.js';
 import DemoPie from './components/graph-chart.js';
 import './styles/App.css';
 import './styles/global.css';
@@ -13,6 +12,8 @@ import iconeRacao from './img/icone-ração.png';
 import iconeHigiene from './img/icone-higiene.png';
 import iconeBrinquedos from './img/icone-brinquedos.png';
 import iconeVeterinario from './img/icone-veterinario.png';
+import ModalTest from './components/Modal Test';
+
 
 function App() {
 
@@ -79,6 +80,14 @@ function App() {
   const [despesaBrinquedos, setDespesaBrinquedos] = useState(0);
   const [despesaVeterinario, setDespesaVeterinario] = useState(0);
 
+  const [showGraph, setShowGraph] = useState(true);
+
+  const [refresh, setRefresh] = useState(false);
+
+  function handleRefresh() {
+    setRefresh(!refresh);
+  }
+
   useEffect(() => {
     const currentDate = new Date();
     const currentMonth = currentDate.getMonth() + 1; 
@@ -91,12 +100,15 @@ function App() {
     // Use useEffect para chamar a função de busca de valores quando a página carregar e quando os valores de mês ou ano mudarem
     useEffect(() => {
       fetchCategoriaValues(selectedMonth, selectedYear);
-    }, [selectedMonth, selectedYear]);
+    }, [selectedMonth, selectedYear, refresh]);
+
+    const handleShowGraph = () =>{
+      setShowGraph(!showGraph);
+    } 
        
     // Função para buscar os valores das categorias com base no mês e ano selecionados
     const fetchCategoriaValues = (mes, ano) => {
       const categorias = [0, 1, 2, 3]; // Um array de IDs de categoria
-    
       categorias.forEach((categoriaId) => {
         api.get(`/calcular-total-mes/${mes}/${ano}/${categoriaId}`).then((response) => {
           // Atualize os estados das despesas com os valores da resposta da API
@@ -140,29 +152,16 @@ function App() {
         <img className="foto-pet" src={ fotoPet } alt="Foto pet" />
         <strong className="nome-pet">Zeus</strong>
         <div className='button-elements'> 
-        <div className="button-group">
-          <PopUpAdd nameButton="Adicionar"
-                      title="Adicionar Despesa"
-                      message="Indique a categoria e o valor da sua despesa."
-                      confirmLabel="Confirmar"
-                      cancelLabel="Cancelar" 
-                      show={show} handleClose={handleClose} />
+          <div className="button-group">
 
-          <PopUpAdd nameButton="Listar"
-                      title="Lista de Despesas"
-                      message="Exempo de lista:
-                                  -
-                                  -
-                                  -
-                                  -"
-                      confirmLabel="Confirmar"
-                      cancelLabel="Cancelar" 
-                      show={show} handleClose={handleClose} />
-        </div>
+            <ModalTest onShow={()=>{handleShowGraph()}} handleRefresh={()=>{handleRefresh()}} />
+
+          </div>
 
         <div className="separator"></div>
         
         <div className='perfil-sidebar'>
+
           <PopUpAdd nameButton="Perfil"
                         title="Perfil"
                         message="Alterar propriedades do perfil"
@@ -223,7 +222,7 @@ function App() {
 
                 <div className="price-info">
                   <span>R$</span>
-                  <span className="calculated-value">{despesaAlimentacao}</span>
+                  <span className="calculated-value">{(despesaAlimentacao.toFixed(2)).replace(".", ",")}</span>
                 </div>
               </div>
 
@@ -235,7 +234,7 @@ function App() {
 
                 <div className="price-info">
                   <span>R$</span>
-                  <span className="calculated-value">{despesaHigiene}</span>
+                  <span className="calculated-value">{(despesaHigiene.toFixed(2)).replace(".", ",")}</span>
                 </div>
               </div>
 
@@ -247,7 +246,7 @@ function App() {
 
                 <div className="price-info">
                   <span>R$</span>
-                  <span className="calculated-value">{despesaBrinquedos}</span>
+                  <span className="calculated-value">{(despesaBrinquedos.toFixed(2)).replace(".", ",")}</span>
                 </div>
               </div>
 
@@ -259,7 +258,7 @@ function App() {
 
                 <div className="price-info">
                   <span>R$</span>
-                  <span className="calculated-value">{despesaVeterinario}</span>
+                  <span className="calculated-value">{(despesaVeterinario.toFixed(2)).replace(".", ",")}</span>
                 </div>
           </div>
         </div>
@@ -270,7 +269,7 @@ function App() {
 
           <div className='dashboard-container'>
             <div className='dashboard-graph'>
-              { <DemoPie givenData={dashboardData}/> }
+              {showGraph? <DemoPie givenData={dashboardData}/> : <></> }
             </div>
 
             <div className='dashboard-recents'>

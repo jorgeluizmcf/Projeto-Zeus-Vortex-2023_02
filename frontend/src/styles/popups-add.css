@@ -1,0 +1,51 @@
+.add-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.cancel-button {
+    width: 102px;
+    background: #E0D9D2; /* Define o fundo branco */
+    color: #504C50;
+    border: none; /* Remove a borda */
+    border-radius: 12px; /* Bordas arredondadas */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Adiciona uma pequena sombra externa */
+    margin-top: 10px;
+    margin-right: 24px;
+    margin-bottom: 10px;
+    padding: 10px 20px; /* Ajuste o preenchimento conforme necessário */
+    cursor: pointer; /* Muda o cursor para indicar que é clicável */
+    font-weight: lighter;
+  }
+
+/* Estilos quando o botão é hover (passagem do mouse) */
+.cancel-button:hover {
+    background: #504C50;
+    color: white; /* Cor do texto no hover (substitua pela cor desejada) */
+}
+
+.confirm-button {
+    width: 102px;
+    background: #B84038; /* Define o fundo branco */
+    color: #E0D9D2;
+    border: none; /* Remove a borda */
+    border-radius: 12px; /* Bordas arredondadas */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Adiciona uma pequena sombra externa */
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 10px 20px; /* Ajuste o preenchimento conforme necessário */
+    cursor: pointer; /* Muda o cursor para indicar que é clicável */
+    font-weight: lighter;
+  }
+
+/* Estilos quando o botão é hover (passagem do mouse) */
+.confirm-button:hover {
+    background: #468C9C;
+    color: white; /* Cor do texto no hover (substitua pela cor desejada) */
+}
+
+.input-data {
+  color: black;
+}

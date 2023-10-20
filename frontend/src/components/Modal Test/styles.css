@@ -1,0 +1,52 @@
+.modal-background {
+    position: fixed;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(200, 200, 200, 0.5);
+    left: 0;
+    top: 0;
+    z-index: 40;
+}
+
+.modal-container{
+    background-color: aliceblue;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    height: 20rem;
+    width: 20rem;
+    border: none;
+    border-radius: 35px;
+    padding: 2rem;
+    color: black;
+    left: 40%;
+    top: 5rem;
+    opacity: 100%;
+}
+
+.input-container{
+
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    justify-content: center;
+    border: none;
+    background-color: #e0e0e0;
+    height: 2.5rem;
+    padding: 1rem;
+    border-radius: 20px;
+}
+
+.dropdown-despesas {
+    border: none;
+    background-color: aliceblue;
+    font-size: medium;
+}
+
+.input-despesa{
+    border: none;
+    background-color: #e0e0e0;
+    color: black;
+    margin-left: 0.2rem;
+    font-weight:bolder;
+}
