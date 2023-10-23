@@ -252,7 +252,6 @@ function App() {
             </div>
 
             <div className='dashboard-recents'>
-              Recentes
             </div>
           </div>
         </div>

@@ -7,7 +7,7 @@ h4 {
     padding-top: 16px;
 }
 
-.list-modal-background {
+.edit-modal-background {
     position: fixed;
     display: flex;
     width: 100%;
@@ -18,15 +18,14 @@ h4 {
     z-index: 40;
 }
 
-.list-modal-container{
+.edit-modal-container{
     background-color: aliceblue;
     display: flex;
     flex-direction: column;
     align-items: center;
     position: fixed;
-    height: 70%;
+    height: 80%;
     width: 90%;
-    border: none;
     border-radius: 35px;
     padding: 2rem;
     color: black;
@@ -36,23 +35,22 @@ h4 {
     
 }
 
-.despesas-list {
-    display: flex;
-    flex-wrap: wrap;
-    width: 90%;
-    align-items: center;
-    justify-content: center;
-    overflow-y: auto; 
-}
-
-.despesa-card {
-    width: 268px;
+.edit-form {
     background: #B84038;
     color: aliceblue;
     border: none;
     border-radius: 8px;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    gap: 8px;
     margin: 16px;
     padding: 8px;
+    width: 268px;
+}
+
+.edit-button-group {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
 }

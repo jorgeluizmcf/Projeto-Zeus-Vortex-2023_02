@@ -34,20 +34,23 @@
     flex-direction: row;
     margin-top: 1rem;
     margin-bottom: 1rem;
-    align-items: baseline;
+    align-items: center;
     justify-content: center;
     border: none;
     background-color: #e0e0e0;
     height: 2.5rem;
     padding: 1rem;
     border-radius: 20px;
+    color: #504C50;
 }
 
 .dropdown-despesas {
-    color: #468C9C;
+    color: #504C50;
+    background-color: #E0D9D2;
     border: none;
-    background-color: aliceblue;
-    font-size: medium;
+    border-radius: 5px;
+    width: 104px;
+    height: 24px;
 }
 
 .input-despesa{

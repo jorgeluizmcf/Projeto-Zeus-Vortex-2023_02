@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
+import EditModal from '../EditModal';
 import api from "../../services/api";
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import './styles.css';
 
 const ListModal = ({ onShow, handleRefresh }) => {
-  const [value, setValue] = useState('');
-  const [category, setCategory] = useState(0);
   const [modalShow, setModalShow] = useState(false);
   const [despesas, setDespesas] = useState([]);
+  const [category, setCategory] = useState(0); // Adicione esta linha
+  const [value, setValue] = useState(''); // Adicione esta linha
 
   const [editing, setEditing] = useState(false);
   const [selectedDespesa, setSelectedDespesa] = useState(null);
-  const [categorias, setCategorias] = useState([]);
+  // Adicione um estado local para controlar a exibição do EditModal
+  const [editModalShow, setEditModalShow] = useState(false);
 
   const [editFormData, setEditFormData] = useState({
     tipoDespesa: '',
@@ -19,6 +21,8 @@ const ListModal = ({ onShow, handleRefresh }) => {
     mesDespesa: '',
     anoDespesa: '',
   });
+
+  const [categorias, setCategorias] = useState([]); // Adicione esta linha
 
   const handleShowModal = () => {
     setModalShow(!modalShow);
@@ -36,10 +40,7 @@ const ListModal = ({ onShow, handleRefresh }) => {
     const numericValue = newValue.replace(/[^0-9]/g, '');
 
     // Formatar o valor com uma vírgula
-    const formattedValue = formatValue(numericValue);
-
-    setValue(formattedValue);
-    console.log('valor: ' + formattedValue);
+    setValue(formatValue(numericValue));
   };
 
   const formatValue = (numericValue) => {
@@ -51,12 +52,11 @@ const ListModal = ({ onShow, handleRefresh }) => {
     return reais + (cents ? ',' : '.') + cents;
   };
 
-  const handleEditChange = (e) => {
-    const { name, value } = e.target;
-    setEditFormData({
-      ...editFormData,
-      [name]: value,
-    });
+  const handleEdit = (despesa) => {
+    setEditing(true);
+    setSelectedDespesa(despesa);
+    // Defina o estado para exibir o EditModal
+    setEditModalShow(true);
   };
 
   const handleSubmitEdit = async (e) => {
@@ -68,23 +68,35 @@ const ListModal = ({ onShow, handleRefresh }) => {
       getDespesas();
       setEditing(false);
       setSelectedDespesa(null);
+      // Feche o EditModal
+      setEditModalShow(false);
     } catch (error) {
       console.error('Erro ao editar despesa:', error);
     }
   };
 
-  const handleEdit = (despesa) => {
-    setEditing(true);
-    setSelectedDespesa(despesa);
-  };
-
-  const handleDelete = (despesa) => {
-    // Implemente a lógica para deletar a despesa aqui
+  const handleDelete = async (despesa) => {
+    const confirmDelete = window.confirm('Tem certeza que deseja excluir?');
+  
+    if (confirmDelete) {
+      try {
+        const response = await api.delete(`/despesas/${despesa._id}`);
+  
+        if (response.status === 200) {
+          // Remova a despesa excluída da lista
+          setDespesas((prevDespesas) => prevDespesas.filter((d) => d._id !== despesa._id));
+        }
+      } catch (error) {
+        console.error('Erro ao excluir despesa:', error);
+      }
+    }
   };
 
   const handleCancel = () => {
     setEditing(false);
     setSelectedDespesa(null);
+    // Feche o EditModal
+    setEditModalShow(false);
   };
 
   async function getDespesas() {
@@ -96,19 +108,10 @@ const ListModal = ({ onShow, handleRefresh }) => {
     }
   }
 
-  async function getCategories() {
-    try {
-      const response = await api.get('/categorias'); // Substitua pelo endpoint correto
-      setCategorias(response.data);
-    } catch (error) {
-      console.error('Erro ao buscar categorias:', error);
-    }
-  }
 
   useEffect(() => {
     if (modalShow) {
       getDespesas();
-      getCategories(); // Obtenha as categorias ao abrir o modal
     }
   }, [modalShow]);
 
@@ -128,7 +131,14 @@ const ListModal = ({ onShow, handleRefresh }) => {
             <div className="despesas-list">
               {despesas.map((despesa) => (
                 <div key={despesa._id} className="despesa-card">
-                  <div>Tipo: {despesa.tipoDespesa}</div>
+                  <div>Categoria: {
+                    {
+                      0: 'Alimentação',
+                      1: 'Higiene',
+                      2: 'Brinquedos',
+                      3: 'Veterinário',
+                    }[despesa.tipoDespesa] || 'Desconhecida'
+                  }</div>
                   <div>Valor: R$ {despesa.valorDespesa.toFixed(2).replace('.', ',')}</div>
                   <div>Mês: {despesa.mesDespesa}</div>
                   <div>Ano: {despesa.anoDespesa}</div>
@@ -140,46 +150,11 @@ const ListModal = ({ onShow, handleRefresh }) => {
               ))}
 
               {editing && selectedDespesa ? (
-                <div className="edit-despesa-form">
-                  <h4>Editar Despesa</h4>
-                  <form onSubmit={handleSubmitEdit}>
-                    <select
-                      name="tipoDespesa"
-                      value={editFormData.tipoDespesa}
-                      onChange={handleEditChange}
-                    >
-                      <option value="">Selecione a categoria</option>
-                      {categorias.map((categoria) => (
-                        <option key={categoria._id} value={categoria._id}>
-                          {categoria.nome}
-                        </option>
-                      ))}
-                    </select>
-                    <input
-                      type="text"
-                      name="valorDespesa"
-                      value={editFormData.valorDespesa}
-                      onChange={handleEditChange}
-                      // Adicione a máscara de formatação aqui
-                    />
-                    <input
-                      type="text"
-                      name="mesDespesa"
-                      value={editFormData.mesDespesa}
-                      onChange={handleEditChange}
-                    />
-                    <input
-                      type="text"
-                      name="anoDespesa"
-                      value={editFormData.anoDespesa}
-                      onChange={handleEditChange}
-                    />
-                    <button type="submit">Salvar</button>
-                    <button type="button" onClick={handleCancel}>
-                      Cancelar
-                    </button>
-                  </form>
-                </div>
+                <EditModal
+                  selectedDespesa={selectedDespesa}
+                  onClose={() => handleCancel()} // Fecha o EditModal
+                  onUpdate={() => getDespesas()} // Atualiza a lista de despesas após a edição
+                />
               ) : null}
             </div>
 
@@ -187,6 +162,7 @@ const ListModal = ({ onShow, handleRefresh }) => {
               <button className="cancel-button" onClick={() => {
                 handleShowModal();
                 onShow();
+                window.location.reload();
               }}>Cancelar</button>
             </div>
           </div>
