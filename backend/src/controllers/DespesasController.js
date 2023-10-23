@@ -18,18 +18,18 @@ module.exports = {
         //console.log(request.body);
 
         const {tipoDespesa, valorDespesa} = request.body;
-
+        let variavelTemporaria = 0;
         console.log(request.body);
 
         if (!valorDespesa) {
             return response.status(400).json({ error: "Necessário um valor válido!"});
         }
 
-       // const mesAtual = await Despesas.createWithCurrentMonth(tipoDespesa, valorDespesa)
+        const numericValue = parseFloat(valorDespesa.replace(',', '.'));
 
         const despesasCreated = await Despesas.create({
-            tipoDespesa, 
-            valorDespesa
+          tipoDespesa,
+          valorDespesa: numericValue, // Atribuir o valor convertido
         });
 
         return response.json(despesasCreated);

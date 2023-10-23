@@ -12,7 +12,8 @@ import iconeRacao from './img/icone-ração.png';
 import iconeHigiene from './img/icone-higiene.png';
 import iconeBrinquedos from './img/icone-brinquedos.png';
 import iconeVeterinario from './img/icone-veterinario.png';
-import ModalTest from './components/Modal Test';
+import AddModal from './components/AddModal';
+import ListModal from './components/ListModal';
 
 
 function App() {
@@ -87,16 +88,6 @@ function App() {
   function handleRefresh() {
     setRefresh(!refresh);
   }
-
-  useEffect(() => {
-    const currentDate = new Date();
-    const currentMonth = currentDate.getMonth() + 1; 
-    const currentYear = currentDate.getFullYear();
-
-    
-    //setSelectedYear(currentYear.toString());
-  }, []);
-
     // Use useEffect para chamar a função de busca de valores quando a página carregar e quando os valores de mês ou ano mudarem
     useEffect(() => {
       fetchCategoriaValues(selectedMonth, selectedYear);
@@ -132,17 +123,6 @@ function App() {
         });
       });
     };
-  
-    // Função para lidar com a mudança nos dropdowns de mês e ano
-    const handleDropdownChange = (event) => {
-      const { name, value } = event.target;
-      if (name === 'mes') {
-        setSelectedMonth(value);
-      } else if (name === 'ano') {
-        setSelectedYear(value);
-      }
-    };
-
   const dashboardData = [despesaAlimentacao, despesaHigiene, despesaBrinquedos, despesaVeterinario];
   return (
     
@@ -154,7 +134,8 @@ function App() {
         <div className='button-elements'> 
           <div className="button-group">
 
-            <ModalTest onShow={()=>{handleShowGraph()}} handleRefresh={()=>{handleRefresh()}} />
+            <AddModal onShow={()=>{handleShowGraph()}} handleRefresh={()=>{handleRefresh()}} />
+            <ListModal onShow={()=>{handleShowGraph()}} handleRefresh={()=>{handleRefresh()}} />
 
           </div>
 
@@ -199,8 +180,6 @@ function App() {
               <option value="novembro">novembro</option>
               <option value="dezembro">dezembro</option>
             </select>
-          
-
           <form>
             <label for="periodo-ano">Ano: </label>
             <select id="periodo-ano" name="periodo-ano"value={selectedYear} onChange={(e) =>{ setSelectedYear(e.target.value)
