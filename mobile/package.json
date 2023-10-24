@@ -10,13 +10,23 @@
   },
   "dependencies": {
     "@expo/webpack-config": "^19.0.0",
+    "@react-native-community/art": "^1.2.0",
+    "d3": "^7.8.5",
     "expo": "~49.0.15",
     "expo-status-bar": "~1.6.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-native": "0.72.6",
+    "react-native-art": "^1.0.0",
+    "react-native-canvas": "^0.1.39",
+    "react-native-element-dropdown": "^2.10.0",
+    "react-native-gifted-charts": "^1.3.12",
+    "react-native-linear-gradient": "^2.8.3",
     "react-native-picker-select": "^8.1.0",
-    "react-native-web": "~0.19.6"
+    "react-native-svg": "^13.14.0",
+    "react-native-swiper": "^1.6.0",
+    "react-native-web": "~0.19.6",
+    "react-native-webview": "^13.6.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
