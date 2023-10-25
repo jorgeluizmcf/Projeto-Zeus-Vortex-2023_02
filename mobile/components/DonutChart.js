@@ -1,38 +1,36 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { View } from 'react-native';
-import { ART } from '@react-native-community/art';
-import * as d3 from 'd3';
+import Svg, { Circle, G, Path, Text } from 'react-native-svg';
+import * as d3 from 'd3-shape';
 
-const { Surface, Group, Shape } = ART;
-
-export default class DonutChart extends Component {
+export default class DonutChart extends React.Component {
   render() {
     const { data, width, height } = this.props;
+    const pie = d3
+      .pie()
+      .value((d) => d.price)
+      .sort(null);
 
-    const colors = d3.scaleSequential(d3.interpolateRainbow)
-      .domain([0, data.length]);
+    const arcs = pie(data);
 
-    const sectionAngles = d3.pie().value(d => d.price)(data);
+    const radius = Math.min(width, height) / 2;
 
-    const path = d3.arc()
-      .outerRadius(Math.min(width, height) / 2 - 10)
-      .padAngle(0.05)
-      .innerRadius(Math.min(width, height) / 4);
+    const arc = d3
+      .arc()
+      .innerRadius(radius / 2)
+      .outerRadius(radius);
+
+    const color = d3.scaleOrdinal().range(['#ff5733', '#33ff57', '#5733ff', '#ff33f3']);
 
     return (
       <View>
-        <Surface width={width} height={height}>
-          <Group x={width / 2} y={height / 2}>
-            {sectionAngles.map((section, index) => (
-              <Shape
-                key={index}
-                d={path(section)}
-                stroke="white"
-                fill={colors(index)}
-              />
+        <Svg width={width} height={height}>
+          <G transform={`translate(${width / 2},${height / 2})`}>
+            {arcs.map((d, i) => (
+              <Path key={i} d={arc(d)} fill={color(i)} />
             ))}
-          </Group>
-        </Surface>
+          </G>
+        </Svg>
       </View>
     );
   }

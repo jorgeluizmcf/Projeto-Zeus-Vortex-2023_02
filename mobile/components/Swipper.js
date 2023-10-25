@@ -2,17 +2,11 @@ import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import Swiper from 'react-native-swiper';
 
-export default function DespesasSwiper() {
-  const cards = [
-    { id: 0, title: 'Alimentação', image: require('../assets/icone-ração-mobile.png'), value: '200,00' },
-    { id: 1, title: 'Higiene', image: require('../assets/icone-higiene.png'), value: '200,00' },
-    { id: 2, title: 'Brinquedos', image: require('../assets/icone-brinquedos.png'), value: '200,00' },
-    { id: 3, title: 'Veterinário', image: require('../assets/icone-veterinario.png'), value: '200,00' }
-  ];
+export default function DespesasSwiper({ cardsData }) {
 
   return (
       <Swiper style={styles.swiperContainer} showsButtons={false}>
-        {cards.map((card) => (
+        {cardsData.map((card) => (
           <View key={card.id} style={styles.card}>
             <View style={{flexDirection: "row", gap: 24, marginTop: 16}}>
               <Text style={styles.cardTitle}>{card.title}</Text>
