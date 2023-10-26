@@ -8,6 +8,7 @@ import './styles/sidebar.css';
 import './styles/category-box.css';
 import './styles/dashboard.css';
 import fotoPet from './img/foto-pet-default.jpg';
+import sidebarLogo from './img/sidebar-logo.png';
 import iconeRacao from './img/icone-ração.png';
 import iconeHigiene from './img/icone-higiene.png';
 import iconeBrinquedos from './img/icone-brinquedos.png';
@@ -143,13 +144,15 @@ function App() {
         
         <div className='perfil-sidebar'>
 
-          <PopUpAdd nameButton="Perfil"
+        <img className="sidebar-logo" src = {sidebarLogo} alt="logo do app"/>
+
+          {/* <PopUpAdd nameButton="Perfil"
                         title="Perfil"
                         message="Alterar propriedades do perfil"
                         confirmLabel="Confirmar"
                         cancelLabel="Cancelar" 
                         show={show} handleClose={handleClose} />
-          <button className="logoff-button">Sair</button>
+          <button className="logoff-button">Sair</button> */}
         </div>
         </div>
       </aside>

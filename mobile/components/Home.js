@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Image, TouchableOpacity, SafeAreaView } from "react-native";
+import { StyleSheet, Text, View, Image, SafeAreaView, ScrollView } from "react-native";
 import DespesasSwiper from "./Swipper";
 import { PieChart } from "react-native-gifted-charts";
 import SelectDropdown from 'react-native-select-dropdown'
 import Api from '../Api/Api';
+import AddModal from "./AddModal";
+import ListModal from "./ListModal";
 
 export default function Home() {
     const [refresh, setRefresh] = useState(false);
@@ -69,7 +71,7 @@ export default function Home() {
       const currentDate = new Date();
       return currentDate.getFullYear();
     });
-  
+
     useEffect(() => {
       fetchCategoriaValues(selectedMonth, selectedYear);
     }, [selectedMonth, selectedYear, refresh]);
@@ -81,50 +83,53 @@ export default function Home() {
       { id: 3, title: 'Veterinário', image: require('../assets/icone-veterinario.png'), value: '0' }
     ]);
   
-    const data=[    {value: 1, color: '#B86D37'},
-                    {value: 1, color: '#46719C'},
-                    {value: 1, color: '#469C72'},
-                    {value: 1, color: '#446957'}, ];
+    const [data, setData] = useState([ // Inicialize data como um estado
+        { value: 0, color: '#B86D37' },
+        { value: 0, color: '#46719C' },
+        { value: 0, color: '#469C72' },
+        { value: 0, color: '#446957' },
+    ]);
   
-    const fetchCategoriaValues = (mes, ano) => {
-      const selectedMonth = mes; // Obtenha o mês selecionado
-      const selectedYear = ano;
-  
+    const fetchCategoriaValues =  (mes, ano) => {
       const categorias = [0, 1, 2, 3]; // Um array de IDs de categoria
       // Atualize o estado de refresh para mostrar o indicador de carregamento
       setRefresh(true);
-  
-      categorias.forEach((categoriaId) => {
-        Api.get(`/calcular-total-mes/${mes}/${ano}/${categoriaId}`).then((response) => {
-            
-            data[categoriaId].value = response.data.total;
 
+      const formatValue = (value) => {
+        // Use o método toLocaleString() para formatar como moeda brasileira
+        const tempValue = `${value.toFixed(2)}`;
+        return tempValue.replace('.', ',');
+      }
+
+        let dataToChange = data
+       categorias.forEach((categoriaId) => {
+        Api.get(`/calcular-total-mes/${mes}/${ano}/${categoriaId}`).then((response) => {
+            dataToChange[categoriaId].value = response.data.total            
             // Atualize o estado das despesas com os valores da resposta da API
             setCardsData((prevData) =>
                 prevData.map((item) =>
                 item.id === categoriaId
-                    ? { ...item, value: response.data.total }
+                    ? { ...item, value: formatValue(response.data.total) }
                     : item
                 ),
             );
-          
         })
         .catch((error) => {
           console.error('Erro na solicitação:', error);
         });
       });
-  
+      setData(dataToChange)
+      
       // Após a conclusão da busca, pare de exibir o indicador de carregamento
       setRefresh(false);
     };
-  
-    // Use useEffect para chamar a função de busca de valores quando a página carregar e quando os valores de mês ou ano mudarem
-    useEffect(() => {
-      fetchCategoriaValues(selectedMonth, selectedYear);
-    }, [selectedMonth, selectedYear, refresh]);
-    
-    const updatedData = [...data];
-  
+    const totalValue = data.reduce((total, item) => total + item.value, 0);
+
+    // Dentro do seu componente, você pode formatar o valor total das despesas
+    const formattedTotalExpenses = `R$ ${totalValue.toFixed(2)}`; // Limita a 2 casas decimais
+    // Substitua o ponto (.) pela vírgula (,) na string formatada
+    const formattedTotalExpensesWithComma = formattedTotalExpenses.replace('.', ',');
+ 
     const renderLegend = (text, color) => {
       return (
         <View style={{flexDirection: 'row', marginBottom: 12}}>
@@ -162,35 +167,27 @@ export default function Home() {
               <SelectDropdown
                   data={monthTest}
                   onSelect={(selectedItem, index) => {
-                    console.log(selectedItem, index)
-                    console.log(cardsData);
+                    setSelectedMonth(monthNumberToMonthName(index + 1))
                   }}
-  
                   buttonStyle={styles.ButtonDropDown}
                   buttonTextStyle={styles.ButtonTextDropDown}
-  
-  
                   buttonTextAfterSelection={(selectedItem, index) => {
-                    // text represented after item is selected
-                    // if data array is an array of objects then return selectedItem.property to render after item is selected
                     return selectedItem
                   }}
                   rowTextForSelection={(item, index) => {
-                    // text represented for each item in dropdown
-                    // if data array is an array of objects then return item.property to represent item in dropdown
                     return item
                   }}
+                  defaultValue={"Outubro"}
                 />
   
                 <Text style={{fontWeight: "bold", color: "white", fontSize: 16}}>  ˅</Text>
   
                 <SelectDropdown
                   data={yearTest}
-                  defaultValue={0}
+                  defaultValue={2023}
                   onSelect={(selectedItem, index) => {
-                    console.log(selectedItem, index)
+                    setSelectedYear(selectedItem)
                   }}
-  
                   buttonStyle={styles.ButtonDropDownAno}
                   buttonTextStyle={styles.ButtonTextDropDown}
   
@@ -209,7 +206,9 @@ export default function Home() {
           </View>
         </View>
   
-        <View style={styles.body}>
+
+                
+        <ScrollView style={styles.body}>
           <View style={styles.despesasContainer}>
             <DespesasSwiper cardsData={cardsData}></DespesasSwiper>
           </View>
@@ -243,14 +242,12 @@ export default function Home() {
                 data={data}
                 innerCircleColor="#e0d9d2"
                 innerRadius = {60}
-                showValuesAsLabels={true}
-                showText
                 textSize={18}
                 centerLabelComponent={() => {
                   return (
-                    <View>
+                    <View style={{flexDirection: "column", alignItems: "center"}}>
                       <Text style={{color: '#504c50', fontSize: 18}}>Total</Text>
-                      <Text style={{color: '#504c50', fontSize: 36}}>90</Text>
+                      <Text style={{color: '#504c50', fontSize: 12}}>{formattedTotalExpensesWithComma}</Text>
                     </View>
                   );
                 }}
@@ -275,39 +272,19 @@ export default function Home() {
             </View>
           </View>
   
-        </View>
+        </ScrollView>
   
   
         <View style={styles.footer}>
-          {/* Botão 1 */}
-          <TouchableOpacity
-            style={styles.footerButton}
-            onPress={() => {
-              // Lógica para o botão 1
-            }}
-          >
-            <Text style={styles.buttonText}>Perfil</Text>
-          </TouchableOpacity>
   
-          {/* Botão 2 */}
-          <TouchableOpacity
-            style={styles.footerButton}
-            onPress={() => {
-              // Lógica para o botão 2
-            }}
-          >
-            <Text style={styles.buttonText}>Adicionar</Text>
-          </TouchableOpacity>
-  
-                  {/* Botão 3 */}
-                  <TouchableOpacity
-            style={styles.footerButton}
-            onPress={() => {
-              // Lógica para o botão 2
-            }}
-          >
-            <Text style={styles.buttonText}>Listar</Text>
-          </TouchableOpacity>
+            <Image
+              source={require("../assets/icon-app.png")}
+              style={styles.logo}
+            />
+                    
+            <AddModal></AddModal>
+
+            <ListModal></ListModal>
   
         </View>
        
@@ -354,6 +331,12 @@ export default function Home() {
       borderRadius: 50, // Bordas arredondadas (metade da largura/altura)
     },
   
+    logo: {
+      marginLeft: 24,
+      width: 50, // Largura da imagem
+      height: 50, // Altura da imagem
+    },
+
     nomePet: {
       color: "white", // Cor do texto
       fontSize: 16, // Tamanho da fonte
@@ -418,9 +401,9 @@ export default function Home() {
   
     footerButton: {
       // Estilos para os botões no rodapé
-      backgroundColor: "white", // Cor de fundo do botão
+      backgroundColor: "#468c9c", // Cor de fundo do botão
       padding: 10, // Espaçamento interno do botão
-      borderRadius: 5, // Bordas arredondadas do botão
+      borderRadius: 50, // Bordas arredondadas do botão
     },
   
     buttonText: {

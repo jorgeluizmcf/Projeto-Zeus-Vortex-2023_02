@@ -90,3 +90,11 @@ strong.nome-pet {
     justify-content: space-between;    
     height:100%;
 }
+
+img.sidebar-logo {
+    display: block; /* Para centralizar a imagem horizontalmente */
+   
+    margin-bottom: 16px;
+    width: 120px; /* Largura da imagem */
+    height: 80px; /* Altura da imagem */
+}
