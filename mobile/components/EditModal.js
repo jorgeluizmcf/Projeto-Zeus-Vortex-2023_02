@@ -4,11 +4,37 @@ import SelectDropdown from 'react-native-select-dropdown';
 import CurrencyInput from 'react-native-currency-input';
 import Api from '../Api/Api';
 
-const AddModal = ({ refresh, setRefresh }) => {
-  const [modalVisible, setModalVisible] = useState(false);
-  const categorias = ["Alimentação", "Higiene", "Brinquedos", "Veterinário"]
-  const [value, setValue] = React.useState(0);
-  const [categoriaSelecionada, setCategoriaSelecionada] = useState(0);
+const EditModal = ( {despesa} ) => {
+    const [editFormData, setEditFormData] = useState({
+        tipoDespesa: despesa.tipoDespesa,
+        valorDespesa: despesa.valorDespesa,
+        mesDespesa: despesa.mesDespesa,
+        anoDespesa: despesa.anoDespesa,
+      });
+      const [category, setCategory] = useState(0);
+    
+      const handleEditChange = (e, fieldName) => {
+        const { value } = e.target;
+        let editedValue = value;
+    
+        if (fieldName === 'valorDespesa') {
+          // Remove todos os caracteres não numéricos
+          const numericValue = value.replace(/[^0-9]/g, '');
+          // Formatar o valor com uma vírgula
+          editedValue = formatValue(numericValue);
+        }
+    
+        setEditFormData({
+          ...editFormData,
+          [fieldName]: editedValue,
+        });
+    };
+  
+  
+    const [modalVisible, setModalVisible] = useState(false);
+    const categorias = ["Alimentação", "Higiene", "Brinquedos", "Veterinário"]
+    const [value, setValue] = React.useState(0);
+    const [categoriaSelecionada, setCategoriaSelecionada] = useState(0);
 
   const handleSubmit = () => {
 
@@ -48,7 +74,7 @@ const AddModal = ({ refresh, setRefresh }) => {
         }}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={{fontSize: 28, fontWeight: "bold", color: "#504c50"}}>Adicionar Despesa</Text>
+            <Text style={{fontSize: 28, fontWeight: "bold", color: "#504c50"}}>Editar Despesa</Text>
             <Text style={styles.modalText}>Inserir categoria:</Text>
             <SelectDropdown
                   data={categorias}
@@ -75,6 +101,34 @@ const AddModal = ({ refresh, setRefresh }) => {
                             maxValue={11111}
                             />
             
+                <SelectDropdown
+                  data={categorias}
+                  onSelect={(selectedItem, index) => {setCategoriaSelecionada(index)}}
+                  buttonStyle={styles.ButtonDropDown}
+                  buttonTextStyle={styles.ButtonTextDropDown}
+                  buttonTextAfterSelection={(selectedItem, index) => {
+                    return selectedItem
+                  }}
+                  rowTextForSelection={(item, index) => {
+                    return item
+                  }}
+                  defaultValue={"Alimentação"}
+                />
+
+                <SelectDropdown
+                  data={categorias}
+                  onSelect={(selectedItem, index) => {setCategoriaSelecionada(index)}}
+                  buttonStyle={styles.ButtonDropDown}
+                  buttonTextStyle={styles.ButtonTextDropDown}
+                  buttonTextAfterSelection={(selectedItem, index) => {
+                    return selectedItem
+                  }}
+                  rowTextForSelection={(item, index) => {
+                    return item
+                  }}
+                  defaultValue={"Alimentação"}
+                />
+            
             <View style={{flexDirection: "row", gap: 24}}>
                 <Pressable
                 style={[styles.button, styles.buttonClose]}
@@ -93,15 +147,11 @@ const AddModal = ({ refresh, setRefresh }) => {
       </Modal>
 
       <TouchableOpacity
-            style={styles.footerButton}
+            style={[styles.button, styles.buttonEdit]}
             onPress={() => setModalVisible(true)}
           >
-            <Image
-              source={require("../assets/add_circle.png")}
-              style={styles.add}
-            />
+            <Text style={styles.buttonText}>Editar</Text>
         </TouchableOpacity>
-
     </View>
   );
 };
@@ -111,11 +161,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 22,
+    // marginTop: 22,
   },
   modalView: {
     width: 350,
-    height: 350,
+    height: 520,
     margin: 20,
     backgroundColor: 'white',
     borderRadius: 20,
@@ -135,15 +185,11 @@ const styles = StyleSheet.create({
     padding: 10,
     elevation: 2,
   },
-  buttonOpen: {
-    backgroundColor: '#F194FF',
-  },
-  buttonClose: {
+  
+  buttonEdit: {
     backgroundColor: '#e0d9d2',
-  },
-
-  buttonConfirm: {
-    backgroundColor: '#d7503d',
+    width: 80,
+    alignItems: "center"
   },
 
   textStyle: {
@@ -187,4 +233,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default AddModal;
+export default EditModal;

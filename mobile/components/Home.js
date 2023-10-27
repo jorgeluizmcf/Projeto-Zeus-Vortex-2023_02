@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Image, SafeAreaView, ScrollView } from "react-native";
+import { StyleSheet, Text, View, Image, SafeAreaView, ScrollView, ActivityIndicator, RefreshControl} from "react-native";
 import DespesasSwiper from "./Swipper";
 import { PieChart } from "react-native-gifted-charts";
 import SelectDropdown from 'react-native-select-dropdown'
@@ -10,6 +10,13 @@ import ListModal from "./ListModal";
 
 export default function Home() {
     const [refresh, setRefresh] = useState(false);
+
+    const onRefresh = React.useCallback(() => {
+      setRefresh(true);
+      setTimeout(() => {
+        setRefresh(false);
+      }, 2000);
+    }, []);
   
     const monthTest = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
     const yearTest = ["2023", "2022"];
@@ -73,7 +80,7 @@ export default function Home() {
     });
 
     useEffect(() => {
-      fetchCategoriaValues(selectedMonth, selectedYear);
+           fetchCategoriaValues(selectedMonth, selectedYear);
     }, [selectedMonth, selectedYear, refresh]);
   
     const [cardsData, setCardsData] = useState([
@@ -208,7 +215,10 @@ export default function Home() {
   
 
                 
-        <ScrollView style={styles.body}>
+        <ScrollView style={styles.body}
+          refreshControl={
+            <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
+          }>
           <View style={styles.despesasContainer}>
             <DespesasSwiper cardsData={cardsData}></DespesasSwiper>
           </View>
@@ -282,9 +292,9 @@ export default function Home() {
               style={styles.logo}
             />
                     
-            <AddModal></AddModal>
+            <AddModal refresh={refresh} setRefresh={setRefresh} />
 
-            <ListModal></ListModal>
+            <ListModal refresh={refresh} setRefresh={setRefresh} ></ListModal>
   
         </View>
        
