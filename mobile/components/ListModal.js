@@ -73,7 +73,7 @@ const ListModal = ({ refresh, setRefresh }) => {
                   <Text style = {styles.textStyle}>Ano: {despesa.anoDespesa}</Text>
                   <View style={styles.buttonGroup}>
 
-                    <EditModal despesa={despesa} />
+                    <EditModal refresh={refresh} setRefresh={setRefresh} despesa={despesa} />
 
                     {/* <TouchableOpacity
                       style={[styles.button, styles.buttonEdit]}

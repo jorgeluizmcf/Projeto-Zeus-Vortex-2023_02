@@ -4,49 +4,40 @@ import SelectDropdown from 'react-native-select-dropdown';
 import CurrencyInput from 'react-native-currency-input';
 import Api from '../Api/Api';
 
-const EditModal = ( {despesa} ) => {
+const EditModal = ( {refresh, setRefresh, despesa} ) => {
     const [editFormData, setEditFormData] = useState({
         tipoDespesa: despesa.tipoDespesa,
         valorDespesa: despesa.valorDespesa,
         mesDespesa: despesa.mesDespesa,
         anoDespesa: despesa.anoDespesa,
-      });
-      const [category, setCategory] = useState(0);
-    
-      const handleEditChange = (e, fieldName) => {
-        const { value } = e.target;
-        let editedValue = value;
-    
-        if (fieldName === 'valorDespesa') {
-          // Remove todos os caracteres não numéricos
-          const numericValue = value.replace(/[^0-9]/g, '');
-          // Formatar o valor com uma vírgula
-          editedValue = formatValue(numericValue);
-        }
-    
-        setEditFormData({
-          ...editFormData,
-          [fieldName]: editedValue,
-        });
-    };
-  
-  
+    }); 
+
     const [modalVisible, setModalVisible] = useState(false);
     const categorias = ["Alimentação", "Higiene", "Brinquedos", "Veterinário"]
-    const [value, setValue] = React.useState(0);
-    const [categoriaSelecionada, setCategoriaSelecionada] = useState(0);
+    const month = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"];
+    const year = ["2023", "2022"];
+    const [value, setValue] = useState(despesa.valorDespesa);
+    const [categoriaSelecionada, setCategoriaSelecionada] = useState(despesa.tipoDespesa);
+    const [mesSelecionado, setMesSelecionado] = useState(despesa.mesDespesa);
+    const [anoSelecionado, setAnoSelecionado] = useState(despesa.anoDespesa);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+
+    const data = {
+      tipoDespesa: categoriaSelecionada,
+      valorDespesa: value,
+      mesDespesa: mesSelecionado,
+      anoDespesa: anoSelecionado,
+    };
+
+    console.log("data ", data);
 
     if (value === 0 || value === null) {
       console.log('O valor da despesa não pode ser zero.');
       return; // Saia da função se o valor for zero
     }
     // Realize a solicitação POST para o seu servidor
-      Api.post('/despesas', {
-        tipoDespesa: categoriaSelecionada, // Pega o índice da categoria selecionada
-        valorDespesa: value.toString(),
-      })
+      Api.post(`/despesas/${despesa._id}`, data)
       .then((response) => {
         // Lidar com a resposta de sucesso, se necessário
         console.log('Despesa cadastrada com sucesso!', response.data);
@@ -59,7 +50,7 @@ const EditModal = ( {despesa} ) => {
         console.error('Erro ao salvar despesa:', error);
       });
       alert("Despesa adicionada!")
-  };
+   };
 
 
   return (
@@ -75,23 +66,19 @@ const EditModal = ( {despesa} ) => {
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <Text style={{fontSize: 28, fontWeight: "bold", color: "#504c50"}}>Editar Despesa</Text>
-            <Text style={styles.modalText}>Inserir categoria:</Text>
+            <Text style={styles.modalText}>Editar categoria:</Text>
             <SelectDropdown
                   data={categorias}
                   onSelect={(selectedItem, index) => {setCategoriaSelecionada(index)}}
                   buttonStyle={styles.ButtonDropDown}
                   buttonTextStyle={styles.ButtonTextDropDown}
-                  buttonTextAfterSelection={(selectedItem, index) => {
-                    return selectedItem
-                  }}
-                  rowTextForSelection={(item, index) => {
-                    return item
-                  }}
-                  defaultValue={"Alimentação"}
+                  defaultValue={categorias[editFormData.tipoDespesa]}
                 />
+            <Text style={styles.modalText}>Editar valor:</Text>
             <CurrencyInput
-                            style={{marginVertical: 24, backgroundColor: "#e0d9d2", height: 40, width: 140, borderRadius: 20, paddingLeft: 16}}
+                            style={{ backgroundColor: "#e0d9d2", height: 50, width: 150, borderRadius: 20, paddingLeft: 20}}
                             value={value}
+                            editable={true}
                             onChangeValue={setValue}
                             prefix="R$ "
                             delimiter="."
@@ -101,9 +88,10 @@ const EditModal = ( {despesa} ) => {
                             maxValue={11111}
                             />
             
+            <Text style={styles.modalText}>Editar mês:</Text>
                 <SelectDropdown
-                  data={categorias}
-                  onSelect={(selectedItem, index) => {setCategoriaSelecionada(index)}}
+                  data={month}
+                  onSelect={(selectedItem, index) => {setMesSelecionado(selectedItem)}}
                   buttonStyle={styles.ButtonDropDown}
                   buttonTextStyle={styles.ButtonTextDropDown}
                   buttonTextAfterSelection={(selectedItem, index) => {
@@ -112,12 +100,13 @@ const EditModal = ( {despesa} ) => {
                   rowTextForSelection={(item, index) => {
                     return item
                   }}
-                  defaultValue={"Alimentação"}
+                  defaultValue={editFormData.mesDespesa}
                 />
 
+            <Text style={styles.modalText}>Editar ano:</Text>
                 <SelectDropdown
-                  data={categorias}
-                  onSelect={(selectedItem, index) => {setCategoriaSelecionada(index)}}
+                  data={year}
+                  onSelect={(selectedItem, index) => {setAnoSelecionado(selectedItem)}}
                   buttonStyle={styles.ButtonDropDown}
                   buttonTextStyle={styles.ButtonTextDropDown}
                   buttonTextAfterSelection={(selectedItem, index) => {
@@ -126,7 +115,7 @@ const EditModal = ( {despesa} ) => {
                   rowTextForSelection={(item, index) => {
                     return item
                   }}
-                  defaultValue={"Alimentação"}
+                  defaultValue={editFormData.anoDespesa}
                 />
             
             <View style={{flexDirection: "row", gap: 24}}>
@@ -161,7 +150,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    // marginTop: 22,
   },
   modalView: {
     width: 350,
@@ -181,9 +169,14 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   button: {
+    backgroundColor: "#e0d9d2",
     borderRadius: 20,
     padding: 10,
     elevation: 2,
+  },
+
+  buttonConfirm: {
+    backgroundColor: "#d7503d",
   },
   
   buttonEdit: {
@@ -205,7 +198,7 @@ const styles = StyleSheet.create({
   },
 
   modalText: {
-    marginBottom: 15,
+    margin: 4,
     textAlign: 'center',
   },
 
@@ -226,6 +219,7 @@ const styles = StyleSheet.create({
   },
 
   ButtonDropDown: {
+    marginBottom: 10,
     backgroundColor: "#e0d9d2",
     borderRadius: 20,
     width: 150
