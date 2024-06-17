@@ -1,5 +1,5 @@
 //Importando o modelo Despesa
-const Despesas = require('../models/DespesasData');
+const Despesas = require('../models/Despesa');
 
 module.exports = {
     async calcularTotalMes(request, response) {

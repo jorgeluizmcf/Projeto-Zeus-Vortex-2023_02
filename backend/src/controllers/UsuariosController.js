@@ -1,91 +1,54 @@
-const Usuarios = require('../models/UsuariosData');
-
+const pool = require('../config/dbConfig');
 
 module.exports = {
-
-
-    async read(request, response) {
-        const UsuariosList = await Usuarios.find();
-
-        return response.json(UsuariosList);
-
-    },
-
-
-
-    async create(request, response) {
-
-        const {usuario, email, senha, fotoPet} = request.body;
-        const existeEmail = await Usuarios.findOne({
-            email : email
-        })
-        const existeUsuario = await Usuarios.findOne({
-            usuario : usuario
-        })
-
-
-        if (existeEmail || existeUsuario){
-            return response.status(500).json({error: "E-mail ou usuário já cadastrado."})
-        }
-
-        if (!email || !usuario || !senha) {
-            return response.status(400).json({ error: "Campos obrigatórios vazios!"});
-        }
-
-
-        const UsuariosCreated = await Usuarios.create({
-            usuario, 
-            email,
-            senha,
-            fotoPet
-        });
-
-        return response.json(UsuariosCreated);
-    },
-
-
-    async delete(request, response) {
-        
-        try{
-            const { id } = request.params;
-
-            const UsuariosDeleted = await Usuarios.findByIdAndDelete({_id: id});
-
-            return response.json(UsuariosDeleted);
-          
-        } catch(error){
-            return response.status(401).json('Não foi possivel encontrar o id');
-        };
-        
-    },
-
-    async update(request, response) {
-        const { id } = request.params;
-        const { senha, fotoPet } = request.body;
-
-        try{ 
-            const usuario = await Usuarios.findOne({ _id : id});
-
-            if (!usuario) {
-                return response.status(404).json({ error: 'usuario não encontrada' });
-            }
-
-            // Atualiza os atributos se os novos valores não forem undefined
-            if (senha !== undefined) {
-                usuario.senha = senha;
-            }
-
-            if (fotoPet !== undefined) {
-                usuario.fotoPet = fotoPet;
-            }
-
-            // Salva as alterações
-            await usuario.save();
-
-            return response.json(usuario);
-        } catch (error) {
-            return response.status(500).json({ error: 'Ocorreu um erro ao atualizar o usuario.' });
-        }
+  async read(request, response) {
+    try {
+      const [rows, fields] = await pool.execute('SELECT * FROM usuario');
+      return response.json(rows);
+    } catch (error) {
+      return response.status(500).json({ error: 'Erro ao buscar os usuários.' });
     }
+  },
 
-}
+  async create(request, response) {
+    const { usuario, email, senha } = request.body;
+
+    try {
+      const [results, fields] = await pool.execute(
+        'INSERT INTO usuario (usuario, email, senha) VALUES (?, ?, ?)',
+        [usuario, email, senha]
+      );
+
+      return response.json({ id: results.insertId });
+    } catch (error) {
+        console.log(error);
+      return response.status(500).json({ error: 'Erro ao criar o usuário.' });
+    }
+  },
+
+  async delete(request, response) {
+    try {
+      const { id } = request.params;
+      const [results, fields] = await pool.execute('DELETE FROM usuario WHERE id = ?', [id]);
+      return response.json(results);
+    } catch (error) {
+      return response.status(500).json({ error: 'Erro ao deletar o usuário.' });
+    }
+  },
+
+  async update(request, response) {
+    const { id } = request.params;
+    const { senha, fotoPet } = request.body;
+
+    try {
+      const [results, fields] = await pool.execute(
+        'UPDATE usuario SET senha = ?, fotoPet = ? WHERE id = ?',
+        [senha, fotoPet, id]
+      );
+
+      return response.json(results);
+    } catch (error) {
+      return response.status(500).json({ error: 'Erro ao atualizar o usuário.' });
+    }
+  }
+};

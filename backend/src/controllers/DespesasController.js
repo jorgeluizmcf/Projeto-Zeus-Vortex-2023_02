@@ -1,90 +1,59 @@
-const Despesas = require('../models/DespesasData');
-
+const pool = require('../config/dbConfig');
 
 module.exports = {
-
-
-    async read(request, response) {
-        const despesasList = await Despesas.find();
-
-        return response.json(despesasList);
-
-    },
-
-
-
-    async create(request, response) {
-
-        //console.log(request.body);
-
-        const {tipoDespesa, valorDespesa} = request.body;
-        let variavelTemporaria = 0;
-        console.log(request.body);
-
-        if (!valorDespesa) {
-            return response.status(400).json({ error: "Necessário um valor válido!"});
-        }
-
-        const numericValue = parseFloat(valorDespesa.replace(',', '.'));
-
-        const despesasCreated = await Despesas.create({
-          tipoDespesa,
-          valorDespesa: numericValue, // Atribuir o valor convertido
-        });
-
-        return response.json(despesasCreated);
-    },
-
-
-    async delete(request, response) {
-        
-        try{
-            const { id } = request.params;
-
-            const despesasDeleted = await Despesas.findByIdAndDelete({_id: id});
-
-            return response.json(despesasDeleted);
-          
-        } catch(error){
-            return response.status(401).json('Não foi possivel encontrar o id');
-        };
-        
-    },
-
-    async update(request, response) {
-        const { id } = request.params;
-        const { tipoDespesa, valorDespesa, mesDespesa, anoDespesa  } = request.body;
-
-        try{ 
-            const despesa = await Despesas.findOne({ _id : id});
-
-            if (!despesa) {
-                return response.status(404).json({ error: 'Despesa não encontrada' });
-            }
-
-            // Atualiza os atributos se os novos valores não forem undefined
-            if (tipoDespesa !== undefined) {
-                despesa.tipoDespesa = tipoDespesa;
-            }
-
-            if (valorDespesa !== undefined) {
-                despesa.valorDespesa = valorDespesa;
-            }
-
-            if (mesDespesa !== undefined) {
-                despesa.mesDespesa = mesDespesa;
-            }
-
-            if (anoDespesa !== undefined) {
-                despesa.anoDespesa = anoDespesa;
-            }
-
-            // Salva as alterações
-            await despesa.save();
-
-            return response.json(despesa);
-        } catch (error) {
-            return response.status(500).json({ error: 'Ocorreu um erro ao atualizar a despesa.' });
-        }
+  async read(request, response) {
+    try {
+      const [rows, fields] = await pool.execute('SELECT * FROM despesa');
+      return response.json(rows);
+    } catch (error) {
+      return response.status(500).json({ error: 'Erro ao buscar as despesas.' });
     }
-}
+  },
+
+  async create(request, response) {
+    const { tipoDespesa, valorDespesa } = request.body;
+
+    if (!valorDespesa) {
+      return response.status(400).json({ error: "Necessário um valor válido!" });
+    }
+
+    const numericValue = parseFloat(valorDespesa.replace(',', '.'));
+
+    try {
+      const [results, fields] = await pool.execute(
+        'INSERT INTO despesa (tipoDespesa, valorDespesa) VALUES (?, ?)',
+        [tipoDespesa, numericValue]
+      );
+
+      return response.json({ id: results.insertId });
+    } catch (error) {
+      return response.status(500).json({ error: 'Erro ao criar a despesa.' });
+    }
+  },
+
+  async delete(request, response) {
+    try {
+      const { id } = request.params;
+      const [results, fields] = await pool.execute('DELETE FROM despesa WHERE id = ?', [id]);
+      return response.json(results);
+    } catch (error) {
+      return response.status(500).json({ error: 'Erro ao deletar a despesa.' });
+    }
+  },
+
+  async update(request, response) {
+    const { id } = request.params;
+    const { tipoDespesa, valorDespesa } = request.body;
+
+    try {
+      const [results, fields] = await pool.execute(
+        'UPDATE despesa SET tipoDespesa = ?, valorDespesa = ? WHERE id = ?',
+        [tipoDespesa, valorDespesa, id]
+      );
+
+      return response.json(results);
+    } catch (error) {
+      return response.status(500).json({ error: 'Erro ao atualizar a despesa.' });
+    }
+  }
+};
