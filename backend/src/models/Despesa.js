@@ -14,7 +14,7 @@ const Despesa = {
         }
       );
     });
-  }
+  },
 };
 
 module.exports = Despesa;
