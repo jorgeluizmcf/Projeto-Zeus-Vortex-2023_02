@@ -1,5 +1,5 @@
 // src/controllers/UsuariosController.js
-
+const bcrypt = require('bcrypt');
 const pool = require('../config/dbConfig');
 
 module.exports = {
@@ -20,9 +20,10 @@ module.exports = {
     console.log('Dados recebidos para criar usuário:', { nome, email, senha });
 
     try {
+      const hashedPassword = await bcrypt.hash(senha, 10);
       const [results, fields] = await pool.execute(
         'INSERT INTO usuario (nome, email, senha) VALUES (?, ?, ?)',
-        [nome, email, senha]
+        [nome, email, hashedPassword]
       );
 
       console.log('Usuário criado com ID:', results.insertId);
@@ -72,8 +73,9 @@ module.exports = {
     }
 
     if (senha) {
+      const hashedPassword = await bcrypt.hash(senha, 10);
       updateFields.push('senha = ?');
-      updateValues.push(senha);
+      updateValues.push(hashedPassword);
     }
 
     updateValues.push(id);
