@@ -1,11 +1,9 @@
-// src/Router.js
-
+//Router.js
 import React from 'react';
-// Router.js
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import LoginPage from './pages/Login/LoginPage';
-import HomePage from './pages/Home/HomePage';
-import ProfilePage from './pages/Profile/ProfilePage';
+import LoginPage from './pages/Login/LoginPage.jsx';
+import HomePage from './pages/Home/HomePage.jsx';
+import ProfilePage from './pages/Profile/ProfilePage.jsx';
 
 const AppRouter = () => {
   return (
