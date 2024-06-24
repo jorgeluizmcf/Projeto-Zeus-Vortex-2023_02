@@ -1,16 +1,16 @@
 // src/pages/LoginPage.js
 
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const handleLogin = () => {
     // Simulação de login bem-sucedido
     // Normalmente, você faria uma chamada para a API para autenticar o usuário
     setTimeout(() => {
-      history.push('/home'); // Navega para a página Home após o login
+      navigate('/home'); // Navega para a página Home após o login
     }, 1000); // Simulação de delay de 1 segundo para login
   };
 

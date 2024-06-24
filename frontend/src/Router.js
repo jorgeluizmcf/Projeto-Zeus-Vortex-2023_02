@@ -1,18 +1,18 @@
-//Router.js
+// Router.js
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import LoginPage from './pages/Login/LoginPage.jsx';
-import HomePage from './pages/Home/HomePage.jsx';
-import ProfilePage from './pages/Profile/ProfilePage.jsx';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Importe BrowserRouter como Router e Routes
+import LoginPage from './pages/Login/LoginPage';
+import HomePage from './pages/Home/HomePage';
+import ProfilePage from './pages/Profile/ProfilePage';
 
 const AppRouter = () => {
   return (
     <Router>
-      <Switch>
-        <Route path="/" exact component={LoginPage} />
-        <Route path="/home" component={HomePage} />
-        <Route path="/profile" component={ProfilePage} />
-      </Switch>
+      <Routes>
+        <Route path="/" element={<LoginPage />} />
+        <Route path="/home" element={<HomePage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+      </Routes>
     </Router>
   );
 };
