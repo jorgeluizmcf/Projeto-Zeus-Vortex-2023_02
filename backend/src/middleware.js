@@ -1,6 +1,7 @@
 // src/middleware.js
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
+const { isTokenInvalid } = require('./controllers/AuthController');
 
 dotenv.config();
 const SECRET = process.env.SECRET;
@@ -17,6 +18,8 @@ const authenticateToken = (req, res, next) => {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
   if (!token) return res.sendStatus(401);
+
+  if (isTokenInvalid(token)) return res.sendStatus(403);
 
   jwt.verify(token, SECRET, (err, user) => {
     if (err) return res.sendStatus(403);

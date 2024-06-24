@@ -28,5 +28,6 @@ routes.post('/pets/:id', authenticateToken, PetController.update);
 
 // Rota de autenticação
 routes.post('/auth/login', AuthController.login);
+routes.post('/auth/logout', authenticateToken, AuthController.logout);
 
 module.exports = routes;
