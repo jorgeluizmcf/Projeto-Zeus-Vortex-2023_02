@@ -1,0 +1,79 @@
+.login-component {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  gap: 36px;
+}
+
+.login-component-title {
+  margin-top: 0px;
+  margin-left: 0px;
+  font: Roboto;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.login-component-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  gap: 8px;
+  color: #504c50;
+}
+
+.login-component-group-input-text {
+  font-size: 20px;
+}
+
+.login-component-group-input-label {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  height: 56px;
+  padding-left: 12px;
+  padding-right: 12px;
+  border-radius: 8px;
+  background-color: #d9d9d9;
+}
+
+.login-component-group-input {
+  width: 100%;
+  appearance: none; /* Remove estilos de aparência padrão */
+  border-radius: 0; /* Remove bordas arredondadas, se houver */
+  border: none; /* Remove a borda padrão */
+  background: none; /* Remove o fundo padrão */
+  padding: 0; /* Remove o preenchimento padrão */
+  margin: 0; /* Remove a margem padrão */
+  outline: none; /* Remove a borda de foco */
+  box-shadow: none; /* Remove sombra */
+  font: inherit; /* Mantém a fonte padrão */
+  color: inherit;
+}
+
+.login-component-group-input-icon :hover {
+  cursor: pointer;
+}
+
+.login-component-group-button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 56px;
+  border: none;
+  border-radius: 8px;
+  background-color: #d7503d;
+
+  color: white;
+  font-size: 18px;
+  font-weight: 600;
+
+  cursor: pointer; /* Adicionado cursor pointer para indicar que é clicável */
+  user-select: none; /* Impede a seleção de texto no botão */
+}

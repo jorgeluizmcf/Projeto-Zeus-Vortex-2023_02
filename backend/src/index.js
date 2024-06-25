@@ -19,8 +19,12 @@ app.use(bodyParser.json()); // Middleware para interpretar JSON no corpo das req
 // Middleware para lidar com erros em formato JSON
 app.use(handleJsonErrors);
 
-// Habilitar CORS
-app.use(cors());
+// Habilitar CORS com opções específicas
+app.use(cors({
+  origin: 'https://localhost:3000', // Substitua pelo URL do seu front-end
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+}));
 
 // Rotas
 app.use(routes);

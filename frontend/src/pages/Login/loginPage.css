@@ -1,0 +1,50 @@
+/* loginPage.css */
+.login-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(
+    0deg,
+    #d9d9d9,
+    #468c9c
+  ); /* Exemplo de gradiente */
+}
+
+.login-page-area {
+  display: flex;
+  flex-direction: column;
+  width: 472px;
+  height: 560px;
+  background-color: white;
+  border-radius: 16px;
+  padding: 48px;
+
+  /* Adicionando efeito de sombra */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Exemplo de sombra suave */
+}
+
+.footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  justify-items: center;
+  gap: 8px;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  padding: 10px 0;
+  font-size: 14px;
+  color: #504c50;
+}
+
+.footer a {
+  text-decoration: none;
+  color: #0077b5; /* Cor do link, pode personalizar */
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
