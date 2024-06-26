@@ -24,6 +24,19 @@
     gap: 8px;
   }
   
+  .create-account-component-group-input-text-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+
+  .create-account-component-group-input-icon {
+    width: 24px;
+    height: 24px;
+  }
+
   .create-account-component-group-input-text {
     font-size: 20px;
   }
@@ -79,8 +92,62 @@
   .create-account-component-group-input-redirect-text:active {
     color: #d7503d;
   }
+
+  .create-account-component-group-password-requirements {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 4px;
+  }
+
+.create-account-component-group-password-requirements-label {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%;
+}
+
+.create-account-component-group-password-requirements-icon {
+    width: 24px;
+    height: 24px;
+    opacity: 45%;
+}
+
+  .create-account-component-group-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    gap: 12px;
+  }
   
   .create-account-component-group-button-back {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 56px;
+    border: none;
+    border-radius: 8px;
+    background-color: #6DA0AC;
+  
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+  
+    cursor: pointer; /* Adicionado cursor pointer para indicar que é clicável */
+    user-select: none; /* Impede a seleção de texto no botão */
+    transition: ease-in-out 150ms;
+  }
+  
+  .create-account-component-group-button-back:active {
+    background-color: #80a9b2;
+  }
+
+  .create-account-component-group-button-confirm {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -100,6 +167,6 @@
     transition: ease-in-out 150ms;
   }
   
-  .create-account-component-group-button-back:active {
+  .create-account-component-group-button-confirm:active {
     background-color: #dd8377;
   }

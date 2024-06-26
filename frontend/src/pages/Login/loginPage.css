@@ -21,7 +21,6 @@
   width: 80vw; /* 80% da largura da viewport */
   max-width: 472px; /* Limite máximo de largura */
   height: auto; /* Altura automática para conteúdo dinâmico */
-  max-height: 90vh; /* Limite máximo de altura */
  
 
   background-color: white;
