@@ -4,16 +4,16 @@ import React, { useState } from "react";
 import "./styles.css";
 import { ReactComponent as HiddenShowPwd } from "../../img/hiddenShowPwd.svg";
 import { ReactComponent as ShowPwd } from "../../img/showPassword.svg";
+import { useLoginContext } from "../../contexts/LoginContext";
 
 const LoginComponent = ({ onLogin }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [toggleShowPassword, setToggleShowPassword] = useState(false);
 
+  const { setToggleForgotPassword, setToggleCreateAccount } = useLoginContext();
+
   const handleLogin = () => {
-    // Aqui você pode adicionar a lógica de validação dos campos, chamada para API, etc.
-    // Exemplo básico: apenas chama a função de login passada via prop
-    console.log("Clicou");
     onLogin(email, password);
   };
 
@@ -57,10 +57,25 @@ const LoginComponent = ({ onLogin }) => {
             {toggleShowPassword ? <ShowPwd /> : <HiddenShowPwd />}
           </div>
         </div>
+        <div className="login-component-group-input-redirect">
+          <label
+            className="login-component-group-input-redirect-text"
+            onClick={() => setToggleForgotPassword(true)}
+          >
+            esqueci minha senha
+          </label>
+        </div>
       </div>
       <div className="login-component-group-button" onClick={handleLogin}>
         Entrar
       </div>
+
+      <label
+        className="login-component-group-input-redirect-text"
+        onClick={() => setToggleCreateAccount(true)}
+      >
+        ainda não tenho uma conta
+      </label>
     </div>
   );
 };

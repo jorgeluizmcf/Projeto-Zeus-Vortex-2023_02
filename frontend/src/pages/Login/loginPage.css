@@ -4,7 +4,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  gap: 4vh;
   background: linear-gradient(
     0deg,
     #d9d9d9,
@@ -15,14 +15,31 @@
 .login-page-area {
   display: flex;
   flex-direction: column;
-  width: 472px;
-  height: 560px;
+  /* width: 472px;
+  height: 560px; */
+
+  width: 80vw; /* 80% da largura da viewport */
+  max-width: 472px; /* Limite máximo de largura */
+  height: auto; /* Altura automática para conteúdo dinâmico */
+  max-height: 90vh; /* Limite máximo de altura */
+ 
+
   background-color: white;
   border-radius: 16px;
   padding: 48px;
+  margin-bottom: 20px; /* Espaço entre o contentor e o rodapé */
+
 
   /* Adicionando efeito de sombra */
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Exemplo de sombra suave */
+}
+
+/* .login-page-logo {
+  border: 2px solid red;
+} */
+
+.login-page-logo-img {
+  width: 40%;
 }
 
 .footer {
@@ -31,10 +48,10 @@
   justify-content: center;
   justify-items: center;
   gap: 8px;
-  position: absolute;
   bottom: 0;
   width: 100%;
   text-align: center;
+  margin-top: 32px;
   padding: 10px 0;
   font-size: 14px;
   color: #504c50;

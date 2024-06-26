@@ -5,6 +5,7 @@
   height: 100%;
   align-items: center;
   gap: 36px;
+  color: #504c50;
 }
 
 .login-component-title {
@@ -21,7 +22,6 @@
   align-items: flex-start;
   width: 100%;
   gap: 8px;
-  color: #504c50;
 }
 
 .login-component-group-input-text {
@@ -59,6 +59,27 @@
   cursor: pointer;
 }
 
+.login-component-group-input-redirect {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  width: 100%;
+}
+
+.login-component-group-input-redirect-text {
+  font-size: 14px;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+  user-select: none;
+
+  transition: ease-in-out 150ms;
+}
+
+.login-component-group-input-redirect-text:active {
+  color: #d7503d;
+}
+
 .login-component-group-button {
   display: flex;
   flex-direction: row;
@@ -76,4 +97,9 @@
 
   cursor: pointer; /* Adicionado cursor pointer para indicar que é clicável */
   user-select: none; /* Impede a seleção de texto no botão */
+  transition: ease-in-out 150ms;
+}
+
+.login-component-group-button:active {
+  background-color: #dd8377;
 }
