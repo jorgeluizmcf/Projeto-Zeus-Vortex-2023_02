@@ -55,7 +55,7 @@
   color: inherit;
 }
 
-.login-component-group-input-icon :hover {
+.login-component-group-input-icon:hover {
   cursor: pointer;
 }
 
@@ -76,7 +76,7 @@
   transition: ease-in-out 150ms;
 }
 
-.login-component-group-input-redirect-text:active {
+.login-component-group-input-redirect-text:hover {
   color: #d7503d;
 }
 
@@ -100,6 +100,6 @@
   transition: ease-in-out 150ms;
 }
 
-.login-component-group-button:active {
+.login-component-group-button:hover {
   background-color: #dd8377;
 }

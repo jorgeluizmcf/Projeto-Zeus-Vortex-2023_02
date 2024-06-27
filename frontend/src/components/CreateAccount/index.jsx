@@ -1,21 +1,26 @@
 import "./styles.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import api from "../../services/api"; // Importe a instância do Axios configurada
 
 import { ReactComponent as HiddenShowPwd } from "../../img/hiddenShowPwd.svg";
 import { ReactComponent as ShowPwd } from "../../img/showPassword.svg";
 import { useLoginContext } from "../../contexts/LoginContext";
+import { useToast } from "../../contexts/ToastContext"; // Importar o contexto
 
 import Check from "../../img/check.png";
 import Cross from "../../img/cross.png";
 import Interrogation from "../../img/interrogation.png";
 
 const CreateAccountComponent = ({ onBack }) => {
+  const { showToast } = useToast(); // Utilizar o contexto
+
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [termsFlag, setTermsFlag] = useState(false);
   const [toggleShowPassword, setToggleShowPassword] = useState(false);
+  const [validationPassed, setValidationPassed] = useState(false);
 
   const { setToggleForgotPassword, setToggleCreateAccount } = useLoginContext();
 
@@ -31,6 +36,51 @@ const CreateAccountComponent = ({ onBack }) => {
   const isEmailValid = (email) => {
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailPattern.test(email);
+  };
+
+  const isPasswordLengthValid = (password) => password.length >= 8;
+  const hasLetter = (password) => /[a-zA-Z]/.test(password);
+  const hasNumber = (password) => /\d/.test(password);
+  const hasUpperCase = (password) => /[A-Z]/.test(password);
+  const doPasswordsMatch = (password, passwordConfirm) =>
+    password === passwordConfirm;
+
+  useEffect(() => {
+    const isFormValid =
+      isNameValid(nome) &&
+      isEmailValid(email) &&
+      isPasswordLengthValid(password) &&
+      hasLetter(password) &&
+      hasNumber(password) &&
+      hasUpperCase(password) &&
+      doPasswordsMatch(password, passwordConfirm);
+
+    setValidationPassed(isFormValid);
+  }, [nome, email, password, passwordConfirm]);
+
+  const handleCreateAccount = async () => {
+    if (!validationPassed) return;
+
+    try {
+      const response = await api.post("/usuarios", {
+        nome,
+        email,
+        senha: password,
+      });
+
+      console.log("Conta criada com sucesso. ID do usuário:", response.data.id);
+      showToast("Conta criada com sucesso!", "success");
+      onBack();
+    } catch (error) {
+      console.error("Erro ao criar a conta:", error);
+      showToast("Erro durante o login. Email já cadastrado!", "error"); // Mostrar toast de erro
+      // Limpar os campos do formulário
+      setNome("");
+      setEmail("");
+      setPassword("");
+      setPasswordConfirm("");
+      showToast("Esqueceu a senha? Tente recuperá-la.", "warning"); // Mostrar toast de erro
+    }
   };
 
   return (
@@ -138,38 +188,82 @@ const CreateAccountComponent = ({ onBack }) => {
         <div className="create-account-component-group-password-requirements-label">
           <label>a senha deve conter letras</label>
           <img
-            src={Interrogation}
+            src={
+              password.length === 0
+                ? Interrogation
+                : hasLetter(password)
+                ? Check
+                : Cross
+            }
             className="create-account-component-group-password-requirements-icon"
           />
         </div>
         <div className="create-account-component-group-password-requirements-label">
           <label>a senha deve conter números</label>
           <img
-            src={Interrogation}
+            src={
+              password.length === 0
+                ? Interrogation
+                : hasNumber(password)
+                ? Check
+                : Cross
+            }
             className="create-account-component-group-password-requirements-icon"
           />
         </div>
         <div className="create-account-component-group-password-requirements-label">
           <label>a senha deve conter maiúscula(s)</label>
           <img
-            src={Interrogation}
+            src={
+              password.length === 0
+                ? Interrogation
+                : hasUpperCase(password)
+                ? Check
+                : Cross
+            }
             className="create-account-component-group-password-requirements-icon"
           />
         </div>
         <div className="create-account-component-group-password-requirements-label">
           <label>pelo menos 8 dígitos </label>
           <img
-            src={Interrogation}
+            src={
+              password.length === 0
+                ? Interrogation
+                : isPasswordLengthValid(password)
+                ? Check
+                : Cross
+            }
             className="create-account-component-group-password-requirements-icon"
           />
         </div>
         <div className="create-account-component-group-password-requirements-label">
           <label>as senhas conferem </label>
           <img
-            src={Interrogation}
+            src={
+              passwordConfirm.length === 0
+                ? Interrogation
+                : doPasswordsMatch(password, passwordConfirm)
+                ? Check
+                : Cross
+            }
             className="create-account-component-group-password-requirements-icon"
           />
         </div>
+      </div>
+      <div className="create-account-component-group-checkbox-terms">
+        <input
+          type="checkbox"
+          id="terms"
+          checked={termsFlag}
+          onChange={() => setTermsFlag(!termsFlag)}
+          className="create-account-component-group-checkbox-terms-flag"
+        />
+        <label htmlFor="terms">Eu li e aceito os</label>{" "}
+        
+        <span className="terms-link" onClick={() => console.log("clicou")}>
+          termos de uso do PataFinanceira.
+        </span>
       </div>
       <div className="create-account-component-group-buttons">
         <div
@@ -179,10 +273,16 @@ const CreateAccountComponent = ({ onBack }) => {
           Voltar
         </div>
         <div
-          className="create-account-component-group-button-confirm"
-          onClick={() => {
-            console.log("clicou");
-          }}
+          className={`create-account-component-group-button-confirm${
+            validationPassed ? "" : "-disabled"
+          }`}
+          onClick={
+            validationPassed
+              ? handleCreateAccount
+              : () => {
+                  console.log("Dados inválidos");
+                }
+          }
         >
           Confirmar
         </div>

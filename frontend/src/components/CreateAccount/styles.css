@@ -1,172 +1,221 @@
 .create-account-component {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
-    align-items: center;
-    gap: 36px;
-    color: #504c50;
-  }
-  
-  .create-account-component-title {
-    margin-top: 0px;
-    margin-left: 0px;
-    font: Roboto;
-    font-size: 28px;
-    font-weight: bold;
-  }
-  
-  .create-account-component-group {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 100%;
-    gap: 8px;
-  }
-  
-  .create-account-component-group-input-text-div {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-  }
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  gap: 36px;
+  color: #504c50;
+}
 
-  .create-account-component-group-input-icon {
-    width: 24px;
-    height: 24px;
-  }
+.create-account-component-title {
+  margin-top: 0px;
+  margin-left: 0px;
+  font: Roboto;
+  font-size: 28px;
+  font-weight: bold;
+}
 
-  .create-account-component-group-input-text {
-    font-size: 20px;
-  }
-  
-  .create-account-component-group-input-label {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 8px;
-    width: 100%;
-    height: 56px;
-    padding-left: 12px;
-    padding-right: 12px;
-    border-radius: 8px;
-    background-color: #d9d9d9;
-  }
-  
-  .create-account-component-group-input {
-    width: 100%;
-    appearance: none; /* Remove estilos de aparência padrão */
-    border-radius: 0; /* Remove bordas arredondadas, se houver */
-    border: none; /* Remove a borda padrão */
-    background: none; /* Remove o fundo padrão */
-    padding: 0; /* Remove o preenchimento padrão */
-    margin: 0; /* Remove a margem padrão */
-    outline: none; /* Remove a borda de foco */
-    box-shadow: none; /* Remove sombra */
-    font: inherit; /* Mantém a fonte padrão */
-    color: inherit;
-  }
-  
-  .create-account-component-group-input-icon :hover {
-    cursor: pointer;
-  }
-  
-  .create-account-component-group-input-redirect {
-    display: flex;
-    flex-direction: row;
-    justify-content: end;
-    width: 100%;
-  }
-  
-  .create-account-component-group-input-redirect-text {
-    font-size: 14px;
-    text-decoration: underline;
-    text-underline-offset: 2px;
-    cursor: pointer;
-    user-select: none;
-  
-    transition: ease-in-out 150ms;
-  }
-  
-  .create-account-component-group-input-redirect-text:active {
-    color: #d7503d;
-  }
+.create-account-component-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  gap: 8px;
+}
 
-  .create-account-component-group-password-requirements {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    gap: 4px;
-  }
+.create-account-component-group-input-text-div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.create-account-component-group-input-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.create-account-component-group-input-text {
+  font-size: 20px;
+}
+
+.create-account-component-group-input-label {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  height: 56px;
+  padding-left: 12px;
+  padding-right: 12px;
+  border-radius: 8px;
+  background-color: #d9d9d9;
+}
+
+.create-account-component-group-input {
+  width: 100%;
+  appearance: none; /* Remove estilos de aparência padrão */
+  border-radius: 0; /* Remove bordas arredondadas, se houver */
+  border: none; /* Remove a borda padrão */
+  background: none; /* Remove o fundo padrão */
+  padding: 0; /* Remove o preenchimento padrão */
+  margin: 0; /* Remove a margem padrão */
+  outline: none; /* Remove a borda de foco */
+  box-shadow: none; /* Remove sombra */
+  font: inherit; /* Mantém a fonte padrão */
+  color: inherit;
+}
+
+.create-account-component-group-input-icon :hover {
+  cursor: pointer;
+}
+
+.create-account-component-group-input-redirect {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  width: 100%;
+}
+
+.create-account-component-group-input-redirect-text {
+  font-size: 14px;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+  user-select: none;
+
+  transition: ease-in-out 150ms;
+}
+
+.create-account-component-group-input-redirect-text:active {
+  color: #d7503d;
+}
+
+.create-account-component-group-password-requirements {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: 4px;
+}
 
 .create-account-component-group-password-requirements-label {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    width: 80%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 80%;
 }
 
 .create-account-component-group-password-requirements-icon {
-    width: 24px;
-    height: 24px;
-    opacity: 45%;
+  width: 24px;
+  height: 24px;
+  opacity: 45%;
 }
 
-  .create-account-component-group-buttons {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    width: 100%;
-    gap: 12px;
-  }
-  
-  .create-account-component-group-button-back {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 56px;
-    border: none;
-    border-radius: 8px;
-    background-color: #6DA0AC;
-  
-    color: white;
-    font-size: 18px;
-    font-weight: 600;
-  
-    cursor: pointer; /* Adicionado cursor pointer para indicar que é clicável */
-    user-select: none; /* Impede a seleção de texto no botão */
-    transition: ease-in-out 150ms;
-  }
-  
-  .create-account-component-group-button-back:active {
-    background-color: #80a9b2;
-  }
+.create-account-component-group-checkbox-terms {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  font-size: 12px;
+  gap: 3px;
 
-  .create-account-component-group-button-confirm {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 56px;
-    border: none;
-    border-radius: 8px;
-    background-color: #d7503d;
-  
-    color: white;
-    font-size: 18px;
-    font-weight: 600;
-  
-    cursor: pointer; /* Adicionado cursor pointer para indicar que é clicável */
-    user-select: none; /* Impede a seleção de texto no botão */
-    transition: ease-in-out 150ms;
-  }
-  
-  .create-account-component-group-button-confirm:active {
-    background-color: #dd8377;
-  }
+  user-select: none;
+}
+
+.create-account-component-group-checkbox-terms-flag {
+  margin-right: 8px;
+}
+
+.terms-link {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+  user-select: none;
+
+  transition: ease-in-out 150ms;
+}
+
+.terms-link:hover {
+  color: #d7503d;
+}
+
+.create-account-component-group-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  gap: 12px;
+}
+
+.create-account-component-group-button-back {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 56px;
+  border: none;
+  border-radius: 8px;
+  background-color: #6da0ac;
+
+  color: white;
+  font-size: 18px;
+  font-weight: 600;
+
+  cursor: pointer; /* Adicionado cursor pointer para indicar que é clicável */
+  user-select: none; /* Impede a seleção de texto no botão */
+  transition: ease-in-out 150ms;
+}
+
+.create-account-component-group-button-back:hover {
+  background-color: #80a9b2;
+}
+
+.create-account-component-group-button-confirm {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 56px;
+  border: none;
+  border-radius: 8px;
+  background-color: #d7503d;
+
+  color: white;
+  font-size: 18px;
+  font-weight: 600;
+
+  cursor: pointer; /* Adicionado cursor pointer para indicar que é clicável */
+  user-select: none; /* Impede a seleção de texto no botão */
+  transition: ease-in-out 150ms;
+}
+
+.create-account-component-group-button-confirm:hover {
+  background-color: #dd8377;
+}
+
+.create-account-component-group-button-confirm-disabled {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 56px;
+  border: none;
+  border-radius: 8px;
+  background-color: #bab8b8;
+
+  color: white;
+  font-size: 18px;
+  font-weight: 600;
+
+  cursor: not-allowed; /* Adicionado cursor pointer para indicar que é clicável */
+  user-select: none; /* Impede a seleção de texto no botão */
+  transition: ease-in-out 150ms;
+}

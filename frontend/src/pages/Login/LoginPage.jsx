@@ -4,6 +4,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../services/api"; // Importe sua instância personalizada do axios
 import { LoginProvider, useLoginContext } from "../../contexts/LoginContext"; // Importe o contexto
+import { useToast } from '../../contexts/ToastContext'; // Importar o contexto
 
 import LoginComponent from "../../components/LoginComponent";
 import ForgotPasswordComponent from "../../components/ForgotPassword";
@@ -16,6 +17,7 @@ import LogoNoBackground from "../../img/logo-noBackground.png";
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const { showToast } = useToast(); // Utilizar o contexto
 
   const handleLogin = async (email, password) => {
     try {
@@ -32,12 +34,10 @@ const LoginPage = () => {
 
       // Navegar para a próxima página após o login (opcional)
       navigate("/home"); // Exemplo: redireciona para a página de dashboard após o login
+      showToast('Login bem-sucedido!', 'success'); // Mostrar toast de sucesso
     } catch (error) {
       console.error("Erro durante o login:", error);
-      // Tratar erros e fornecer feedback ao usuário, por exemplo:
-      alert(
-        "Erro durante o login. Verifique suas credenciais e tente novamente."
-      );
+      showToast('Erro durante o login. Verifique suas credenciais e tente novamente.', 'error'); // Mostrar toast de erro
     }
   };
 
