@@ -7,6 +7,8 @@ import { ReactComponent as ShowPwd } from "../../img/showPassword.svg";
 import { useLoginContext } from "../../contexts/LoginContext";
 import { useToast } from "../../contexts/ToastContext"; // Importar o contexto
 
+import TermsModal from "../TermsModal/index"; // Importe o componente do modal
+
 import Check from "../../img/check.png";
 import Cross from "../../img/cross.png";
 import Interrogation from "../../img/interrogation.png";
@@ -21,11 +23,16 @@ const CreateAccountComponent = ({ onBack }) => {
   const [termsFlag, setTermsFlag] = useState(false);
   const [toggleShowPassword, setToggleShowPassword] = useState(false);
   const [validationPassed, setValidationPassed] = useState(false);
+  const [toggleShowTermsModal, setToggleShowTermsModal] = useState(false);
 
-  const { setToggleForgotPassword, setToggleCreateAccount } = useLoginContext();
+  const { setToggleCreateAccount } = useLoginContext();
 
   const handleTogglePasswordVisibility = () => {
     setToggleShowPassword(!toggleShowPassword);
+  };
+
+  const handleToggleShowTermsModal = () => {
+    setToggleShowTermsModal(!toggleShowTermsModal);
   };
 
   const isNameValid = (name) => {
@@ -53,10 +60,11 @@ const CreateAccountComponent = ({ onBack }) => {
       hasLetter(password) &&
       hasNumber(password) &&
       hasUpperCase(password) &&
-      doPasswordsMatch(password, passwordConfirm);
+      doPasswordsMatch(password, passwordConfirm) &&
+      termsFlag;
 
     setValidationPassed(isFormValid);
-  }, [nome, email, password, passwordConfirm]);
+  }, [nome, email, password, passwordConfirm, termsFlag]);
 
   const handleCreateAccount = async () => {
     if (!validationPassed) return;
@@ -260,11 +268,14 @@ const CreateAccountComponent = ({ onBack }) => {
           className="create-account-component-group-checkbox-terms-flag"
         />
         <label htmlFor="terms">Eu li e aceito os</label>{" "}
-        
-        <span className="terms-link" onClick={() => console.log("clicou")}>
+        <span className="terms-link" onClick={handleToggleShowTermsModal}>
           termos de uso do PataFinanceira.
         </span>
       </div>
+      <TermsModal
+        isOpen={toggleShowTermsModal}
+        onClose={handleToggleShowTermsModal}
+      />
       <div className="create-account-component-group-buttons">
         <div
           className="create-account-component-group-button-back"

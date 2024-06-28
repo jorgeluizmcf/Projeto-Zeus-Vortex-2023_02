@@ -2,12 +2,14 @@
 import "./styles.css";
 import React from "react";
 
-
 const ForgotPasswordComponent = ({ onBack }) => {
   return (
     <div>
       <h2>Esqueci minha senha</h2>
-      {/* Adicione seu formulário de recuperação de senha aqui */}
+      <div className="testeForgot">
+        <p>Cria outra conta :P</p>
+        <p>Brinks, tá em desenvolvimento</p>
+      </div>
       <button onClick={onBack}>Voltar</button>
     </div>
   );
