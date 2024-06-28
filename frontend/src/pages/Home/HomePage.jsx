@@ -84,26 +84,26 @@ const HomePage = () => {
   const fetchCategoriaValues = (mes, ano) => {
     const categorias = [0, 1, 2, 3]; // Um array de IDs de categoria
     categorias.forEach((categoriaId) => {
-      api.get(`/calcular-total-mes/${ano}/${mes}/${categoriaId}`).then((response) => {
-        // Atualize os estados das despesas com os valores da resposta da API
-        switch (categoriaId) {
-          case 0:
-            setDespesaAlimentacao(response.data.total);
-            break;
-          case 1:
-            setDespesaHigiene(response.data.total);
-            break;
-          case 2:
-            setDespesaBrinquedos(response.data.total);
-            break;
-          case 3:
-            setDespesaVeterinario(response.data.total);
-            break;
-          default:
-            // Lidar com outros IDs de categoria, se necessário
-            break;
-        }
-      });
+      // api.get(`/calcular-total-mes/${ano}/${mes}/${categoriaId}`).then((response) => {
+      //   // Atualize os estados das despesas com os valores da resposta da API
+      //   switch (categoriaId) {
+      //     case 0:
+      //       setDespesaAlimentacao(response.data.total);
+      //       break;
+      //     case 1:
+      //       setDespesaHigiene(response.data.total);
+      //       break;
+      //     case 2:
+      //       setDespesaBrinquedos(response.data.total);
+      //       break;
+      //     case 3:
+      //       setDespesaVeterinario(response.data.total);
+      //       break;
+      //     default:
+      //       // Lidar com outros IDs de categoria, se necessário
+      //       break;
+      //   }
+      // });
     });
   };
 
