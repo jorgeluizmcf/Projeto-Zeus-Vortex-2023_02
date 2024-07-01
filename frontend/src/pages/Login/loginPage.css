@@ -5,11 +5,12 @@
   justify-content: center;
   align-items: center;
   gap: 4vh;
+  height: 100vh;
   background: linear-gradient(
     0deg,
     #d9d9d9,
     #468c9c
-  ); /* Exemplo de gradiente */
+  );
 }
 
 .login-page-area {
@@ -21,13 +22,11 @@
   width: 80vw; /* 80% da largura da viewport */
   max-width: 472px; /* Limite máximo de largura */
   height: auto; /* Altura automática para conteúdo dinâmico */
- 
 
   background-color: white;
   border-radius: 16px;
   padding: 48px;
   margin-bottom: 20px; /* Espaço entre o contentor e o rodapé */
-
 
   /* Adicionando efeito de sombra */
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Exemplo de sombra suave */
