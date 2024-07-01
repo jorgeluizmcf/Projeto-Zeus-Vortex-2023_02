@@ -109,6 +109,19 @@ const HomePage = () => {
 
   const dashboardData = [despesaAlimentacao, despesaHigiene, despesaBrinquedos, despesaVeterinario];
 
+  const handleLogout = () => {
+    if (window.confirm('Deseja encerrar a sessão?')) {
+      api.post('/auth/logout')
+        .then(() => {
+          // Redirecionar para a página de login ou fazer logout do usuário
+          window.location.href = '/';
+        })
+        .catch((error) => {
+          console.error('Erro ao fazer logout:', error);
+        });
+    }
+  };
+
   return (
     <div id="app">
       <aside className="sidebar">
@@ -123,7 +136,8 @@ const HomePage = () => {
           <div className="separator"></div>
 
           <div className="perfil-sidebar">
-            <img className="sidebar-logo" src={sidebarLogo} alt="logo do app" />
+            {/* <img className="sidebar-logo" src={sidebarLogo} alt="logo do app" /> */}
+            <button onClick={handleLogout}>Logout</button>
           </div>
         </div>
       </aside>
