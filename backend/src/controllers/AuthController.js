@@ -7,7 +7,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 const SECRET = process.env.SECRET;
 
-const invalidTokens = new Set(); // Lista de tokens inválidos
+const validTokens = new Set(); // Lista de tokens válidos
 
 const login = async (req, res) => {
   try {
@@ -34,6 +34,9 @@ const login = async (req, res) => {
       expiresIn: "1h",
     });
 
+    // Adicionar o token à lista de tokens válidos
+    validTokens.add(token);
+
     console.log("Token generated, sending response");
     res.status(200).json({ message: "Authentication successful", token });
   } catch (error) {
@@ -43,15 +46,45 @@ const login = async (req, res) => {
 };
 
 const logout = (req, res) => {
-  const token = req.headers["authorization"].split(" ")[1];
-  invalidTokens.add(token);
-  res.status(200).json({
-    statusCode: 200,
-    message: "Logout successful",
-  });
-  console.log("Logout realizado com sucesso!")
+  try {
+    const authHeader = req.headers["authorization"];
+    if (!authHeader) {
+      return res.status(400).json({
+        statusCode: 400,
+        message: "Authorization header is missing",
+      });
+    }
+    const token = authHeader.split(" ")[1];
+    if (!token) {
+      return res.status(400).json({
+        statusCode: 400,
+        message: "Token is missing",
+      });
+    }
+
+    if (validTokens.has(token)) {
+      validTokens.delete(token);
+      res.status(200).json({
+        statusCode: 200,
+        message: "Logout successful",
+      });
+      console.log("Logout realizado com sucesso!");
+    } else {
+      res.status(400).json({
+        statusCode: 400,
+        message: "Token is not valid",
+      });
+    }
+  } catch (error) {
+    console.error("Error during logout:", error);
+    res.status(500).json({
+      statusCode: 500,
+      message: "Internal server error during logout",
+    });
+  }
 };
 
-const isTokenInvalid = (token) => invalidTokens.has(token);
+
+const isTokenInvalid = (token) => !validTokens.has(token);
 
 module.exports = { login, logout, isTokenInvalid };
