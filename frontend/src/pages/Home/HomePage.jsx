@@ -4,7 +4,8 @@ import Sidebar from "../../components/Sidebar/index.jsx";
 import MainPanel from "../../components/MainPanel/index.jsx";
 import GenericModal from "../../components/GenericModal/index.jsx"; // Importar o componente GenericModal
 import { useToast } from "../../contexts/ToastContext"; // Importar o contexto
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { DotLottiePlayer, Controls } from "@dotlottie/react-player";
 
 import "./App.css";
 import "../../styles/global.css";
@@ -120,8 +121,8 @@ const HomePage = () => {
       .post("/auth/logout")
       .then(() => {
         localStorage.removeItem("token"); // Remove o token do localStorage
-        api.defaults.headers.common['Authorization'] = null; // Remove o token do header Authorization
-        
+        api.defaults.headers.common["Authorization"] = null; // Remove o token do header Authorization
+
         navigate("/", { replace: true });
         showToast("Logout bem-sucedido!", "success");
       })
@@ -144,7 +145,27 @@ const HomePage = () => {
         handleRefresh={handleRefresh}
       />
 
-      <MainPanel
+      <script
+        src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs"
+        type="module"
+      ></script>
+
+      
+      <DotLottiePlayer
+        src="https://lottie.host/c8c69de4-5915-4d6b-b7dd-b316a0a13af7/gpNco0avnr.json"
+        style={{
+          width: "300px",
+          height: "300px",
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)", // Centraliza o player
+        }}
+        autoplay
+        loop
+      />
+
+      {/* <MainPanel
         selectedMonth={selectedMonth}
         setSelectedMonth={setSelectedMonth}
         selectedYear={selectedYear}
@@ -155,7 +176,7 @@ const HomePage = () => {
         despesaVeterinario={despesaVeterinario}
         showGraph={showGraph}
         dashboardData={dashboardData}
-      />
+      /> */}
 
       <GenericModal
         isOpen={isLogoutModalOpen}
