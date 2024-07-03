@@ -1,13 +1,13 @@
 // src/components/Sidebar.jsx
-import "./styles.css"
+import "./styles.css";
 
-import React from 'react';
-import AddModal from '../AddModal/index.jsx';
-import ListModal from '../ListModal/index.jsx';
-import fotoPet from '../../img/foto-pet-default.jpg';
-import sidebarLogo from '../../img/sidebar-logo.png';
+import React from "react";
+import AddModal from "../AddModal/index.jsx";
+import ListModal from "../ListModal/index.jsx";
+import fotoPet from "../../img/foto-pet-default.jpg";
+import sidebarLogo from "../../img/sidebar-logo.png";
 
-const Sidebar = ({ handleShowGraph, handleRefresh, handleLogout }) => {
+const Sidebar = ({ handleShowGraph, handleRefresh, handleLogout, handleProfile }) => {
   return (
     <aside className="sidebar">
       <img className="foto-pet" src={fotoPet} alt="Foto pet" />
@@ -19,7 +19,12 @@ const Sidebar = ({ handleShowGraph, handleRefresh, handleLogout }) => {
         </div>
         <div className="separator"></div>
         <div className="perfil-sidebar">
-          <button onClick={handleLogout} className="logoff-button">Sair</button>
+          <button onClick={handleProfile} className="sidebar-button">
+            Perfil
+          </button>
+          <button onClick={handleLogout} className="logoff-button">
+            Sair
+          </button>
           <img className="sidebar-logo" src={sidebarLogo} alt="logo do app" />
         </div>
       </div>

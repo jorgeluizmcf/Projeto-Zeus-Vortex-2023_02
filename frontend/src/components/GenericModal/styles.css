@@ -51,7 +51,7 @@
 .generic-modal-close-button {
   margin-top: 20px;
   padding: 10px 20px;
-  background: #d7503d;
+  background: #6da0ac;
   color: white;
   border: none;
   border-radius: 8px;
@@ -61,15 +61,14 @@
 }
 
 .generic-modal-close-button:hover {
-  background: #e0d9d2;
-  color: #504c50;
+  background: #80a9b2;
 }
 
 .generic-modal-confirm-button {
   margin-top: 20px;
   padding: 10px 20px;
-  background: #e0d9d2;
-  color: #504c50;
+  background: #d7503d;
+  color: white;
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -79,5 +78,4 @@
 
 .generic-modal-confirm-button:hover {
   background: #dd8377;
-  color: white;
 }

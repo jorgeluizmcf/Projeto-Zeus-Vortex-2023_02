@@ -7,12 +7,12 @@ import iconeBrinquedos from "../../img/icone-brinquedos.png";
 import iconeVeterinario from "../../img/icone-veterinario.png";
 import DemoPie from "../graph-chart.js";
 import "./styles.css";
+import { DatePicker } from "@mui/x-date-pickers";
+import dayjs from "dayjs";
 
 const MainPanel = ({
-  selectedMonth,
-  setSelectedMonth,
-  selectedYear,
-  setSelectedYear,
+  date,
+  setDate,
   despesaAlimentacao,
   despesaHigiene,
   despesaBrinquedos,
@@ -26,44 +26,12 @@ const MainPanel = ({
 
       <div className="period-selecter">
         <h2>Período</h2>
-
-        <label htmlFor="periodo-mes">Mês: </label>
-        <select
-          id="periodo-mes"
-          name="periodo-mes"
-          value={selectedMonth}
-          onChange={(e) => {
-            setSelectedMonth(e.target.value);
-          }}
-        >
-          <option value="janeiro">janeiro</option>
-          <option value="fevereiro">fevereiro</option>
-          <option value="março">março</option>
-          <option value="abril">abril</option>
-          <option value="maio">maio</option>
-          <option value="junho">junho</option>
-          <option value="julho">julho</option>
-          <option value="agosto">agosto</option>
-          <option value="setembro">setembro</option>
-          <option value="outubro">outubro</option>
-          <option value="novembro">novembro</option>
-          <option value="dezembro">dezembro</option>
-        </select>
-
-        <form>
-          <label htmlFor="periodo-ano">Ano: </label>
-          <select
-            id="periodo-ano"
-            name="periodo-ano"
-            value={selectedYear}
-            onChange={(e) => {
-              setSelectedYear(e.target.value);
-            }}
-          >
-            <option value="2023">2023</option>
-            <option value="2022">2022</option>
-          </select>
-        </form>
+        <DatePicker
+          value={date}
+          onChange={(newValue) => setDate(newValue)}
+          format="DD/MM/YYYY"
+        />
+        {console.log(date)}
       </div>
 
       <div className="category-box-container">

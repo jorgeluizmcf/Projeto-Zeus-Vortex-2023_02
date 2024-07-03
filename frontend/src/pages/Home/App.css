@@ -36,3 +36,22 @@
     transform: rotate(360deg);
   }
 }
+
+.home-loading {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-left: 220px;
+  height: 100vh;
+}
+
+.home-loading-logo {
+  width: 420px;
+  height: auto;
+}
+
+.home-loading-splash {
+  width: 300px;
+  height: 300px;
+}
