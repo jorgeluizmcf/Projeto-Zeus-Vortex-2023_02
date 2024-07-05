@@ -1,25 +1,34 @@
-const pool = require('../config/dbConfig');
+const pool = require("../config/dbConfig");
 
 const Pet = {
   create: (newPet) => {
     return new Promise((resolve, reject) => {
-      pool.execute(
-        'INSERT INTO pet (nome, data_nascimento, tipo, raca, foto, id_usuario) VALUES (?, ?, ?, ?, ?, ?)',
-        [newPet.nome, newPet.data_nascimento, newPet.tipo, newPet.raca, newPet.foto, newPet.id_usuario]
-      )
-      .then(result => {
-        resolve(result.insertId);
-      })
-      .catch(err => {
-        reject(err);
-      });
+      pool
+        .execute(
+          "INSERT INTO pet (nome, data_nascimento, tipo, raca, foto, id_usuario) VALUES (?, ?, ?, ?, ?, ?)",
+          [
+            newPet.nome,
+            newPet.data_nascimento,
+            newPet.tipo,
+            newPet.raca,
+            newPet.foto,
+            newPet.id_usuario,
+          ]
+        )
+        .then((result) => {
+          resolve(result.insertId);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   },
 
-  findAll: () => {
+  findAll:  (id_usuario) => {
     return new Promise((resolve, reject) => {
       pool.query(
-        'SELECT * FROM pet'
+        'SELECT * FROM pet WHERE id_usuario = ?',
+        [id_usuario]
       )
       .then(results => {
         resolve(results[0]);
@@ -30,35 +39,43 @@ const Pet = {
     });
   },
 
+
   update: (updatedPet) => {
     return new Promise((resolve, reject) => {
-      pool.execute(
-        'UPDATE pet SET nome = ?, data_nascimento = ?, tipo = ?, raca = ?, foto = ?, id_usuario = ? WHERE id = ?',
-        [updatedPet.nome, updatedPet.data_nascimento, updatedPet.tipo, updatedPet.raca, updatedPet.foto, updatedPet.id_usuario, updatedPet.id]
-      )
-      .then(() => {
-        resolve();
-      })
-      .catch(err => {
-        reject(err);
-      });
+      pool
+        .execute(
+          "UPDATE pet SET nome = ?, data_nascimento = ?, tipo = ?, raca = ?, foto = ?, id_usuario = ? WHERE id = ?",
+          [
+            updatedPet.nome,
+            updatedPet.data_nascimento,
+            updatedPet.tipo,
+            updatedPet.raca,
+            updatedPet.foto,
+            updatedPet.id_usuario,
+            updatedPet.id,
+          ]
+        )
+        .then(() => {
+          resolve();
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   },
 
   delete: (id) => {
     return new Promise((resolve, reject) => {
-      pool.execute(
-        'DELETE FROM pet WHERE id = ?',
-        [id]
-      )
-      .then(() => {
-        resolve();
-      })
-      .catch(err => {
-        reject(err);
-      });
+      pool
+        .execute("DELETE FROM pet WHERE id = ?", [id])
+        .then(() => {
+          resolve();
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
-  }
+  },
 };
 
 module.exports = Pet;

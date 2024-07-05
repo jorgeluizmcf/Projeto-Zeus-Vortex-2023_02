@@ -27,8 +27,6 @@ const LoginPage = () => {
       });
       const { token } = response.data;
 
-      console.log("Login bem-sucedido. Token:", token);
-
       // Armazenar o token no localStorage
       localStorage.setItem("token", token);
 

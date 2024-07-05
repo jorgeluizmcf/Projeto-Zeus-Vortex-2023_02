@@ -22,27 +22,27 @@ const HomePage = () => {
   const [despesaHigiene, setDespesaHigiene] = useState(0);
   const [despesaBrinquedos, setDespesaBrinquedos] = useState(0);
   const [despesaVeterinario, setDespesaVeterinario] = useState(0);
+  const [pets, setPets] = useState([]);
 
   const [showGraph, setShowGraph] = useState(true);
   const [refresh, setRefresh] = useState(false);
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const [idUsuario] = useState(() => {
-    // Substitua com a lógica real para obter o id do usuário
-    return 15;
-  });
+  const [idUsuario] = useState(15); // Inicializa com o ID do usuário
 
-  const [idPet] = useState(() => {
-    // Substitua com a lógica real para obter o id do pet, se necessário
-    return null;
-  });
+  const [idPet] = useState(null);
 
   useEffect(() => {
     const selectedMonth = date.format("MM");
     const selectedYear = date.year();
-    fetchCategoriaValues(selectedMonth, selectedYear, idUsuario, idPet);
+    //fetchCategoriaValues(selectedMonth, selectedYear, idUsuario, idPet);
   }, [date, refresh]);
+
+  useEffect(() => {
+    fetchPets(idUsuario);
+    console.log("dados de pets", pets);
+  }, [idUsuario]);
 
   const handleRefresh = () => {
     setRefresh(!refresh);
@@ -50,6 +50,25 @@ const HomePage = () => {
 
   const handleShowGraph = () => {
     setShowGraph(!showGraph);
+  };
+
+  const fetchPets = (idUsuario) => {
+    api
+      .get(`/pets`, { params: { id_usuario: idUsuario } })
+      .then((response) => {
+        const petsData = response.data;
+        setPets(petsData);
+        console.log("dados de petsData", petsData);
+      })
+      .catch((error) => {
+        showToast(
+          `Erro ao buscar dados: ${
+            error.response?.data?.message || error.message
+          }`,
+          "error"
+        );
+        console.error("Erro ao buscar dados dos pets:", error);
+      });
   };
 
   const fetchCategoriaValues = (date, idUsuario, idPet) => {
@@ -142,7 +161,6 @@ const HomePage = () => {
 
       {loading ? (
         <div className="home-loading">
-          {console.log("Começou a carregar", loading)}
           <DotLottiePlayer
             className="home-loading-splash"
             src="https://lottie.host/c8c69de4-5915-4d6b-b7dd-b316a0a13af7/gpNco0avnr.json"

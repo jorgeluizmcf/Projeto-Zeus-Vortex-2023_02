@@ -18,7 +18,7 @@ const authenticateToken = (req, res, next) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
   if (!token) return res.sendStatus(401);
-  if (isTokenInvalid(token)) return res.sendStatus(403);
+  if (isTokenInvalid(token)) return res.status(440).json({ error: 'Sessão expirada' });
 
   jwt.verify(token, SECRET, (err, user) => {
     if (err) return res.sendStatus(403);

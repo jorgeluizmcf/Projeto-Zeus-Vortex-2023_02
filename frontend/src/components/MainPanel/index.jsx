@@ -31,7 +31,6 @@ const MainPanel = ({
           onChange={(newValue) => setDate(newValue)}
           format="DD/MM/YYYY"
         />
-        {console.log(date)}
       </div>
 
       <div className="category-box-container">
