@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  node-api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    container_name: pata_financeira-api
+    entrypoint: ["./wait-for-it.sh", "database:3306", "--", "npm", "start"]
+    volumes:
+      - .:/home/node/api
+      - /home/node/api/node_modules
+    ports:
+      - '3333:3333'
+    depends_on:
+      - database
+
+  database:
+    image: mysql:8.0.39
+    container_name: pata_financeira-db
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./.docker/dbdata:/var/lib/mysql
+      - ./src/config/DDL.sql:/docker-entrypoint-initdb.d/DDL.sql
+    environment:
+      - MYSQL_DATABASE=PataFinanceira
+      - MYSQL_ROOT_PASSWORD=root

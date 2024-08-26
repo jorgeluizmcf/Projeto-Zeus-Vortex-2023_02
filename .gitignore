@@ -5,3 +5,7 @@ server.key
 # Variavel de ambiente #
 #################
 .env
+
+# Persistent Volume#
+#################
+.docker

@@ -1,3 +1,8 @@
+-- Criação do usuário 'admin' com senha 'admin' e concessão de privilégios de root
+CREATE USER IF NOT EXISTS 'admin'@'%' IDENTIFIED BY 'admin';
+GRANT ALL PRIVILEGES ON *.* TO 'admin'@'%' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+
 -- Criação do banco de dados PataFinanceira (caso não exista)
 CREATE DATABASE IF NOT EXISTS PataFinanceira;
 

@@ -1,0 +1,36 @@
+# Use a imagem do Node.js como base
+FROM node:12.22.9
+
+# Crie e defina permissões no diretório da aplicação
+RUN mkdir -p /home/node/api/node_modules && \
+    chown -R node:node /home/node/api
+
+# Defina o diretório de trabalho
+WORKDIR /home/node/api
+
+# Copie o arquivo package.json e instale as dependências
+COPY .env ./
+
+# Copie o arquivo package.json e instale as dependências
+COPY package.json ./
+
+# Instale as dependências sem criar cache desnecessário
+RUN npm install
+
+# Copie os certificados SSL para o contêiner
+COPY certs/ ./certs/
+
+# Copie todos os outros arquivos da aplicação
+COPY --chown=node:node . .
+
+# Ajuste permissões para os arquivos copiados
+RUN chown -R node:node /home/node/api
+
+# Troque para o usuário node
+USER node
+
+# Exponha a porta que a API utiliza
+EXPOSE 3333
+
+# Comando para iniciar a aplicação
+CMD ["node", "src/index.js"]
